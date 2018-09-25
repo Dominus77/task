@@ -2,11 +2,34 @@
 
 namespace tests\models;
 
+use app\fixtures\User as UserFixture;
 use app\models\LoginForm;
 
+/**
+ * Class LoginFormTest
+ * @package tests\models
+ */
 class LoginFormTest extends \Codeception\Test\Unit
 {
+    /**
+     * @var \_generated\UnitTesterActions
+     */
+    protected $tester;
+
     private $model;
+
+    /**
+     * @inheritdoc
+     */
+    public function _before()
+    {
+        $this->tester->haveFixtures([
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => codecept_data_dir() . 'login_data.php'
+            ]
+        ]);
+    }
 
     protected function _after()
     {
@@ -39,13 +62,12 @@ class LoginFormTest extends \Codeception\Test\Unit
     public function testLoginCorrect()
     {
         $this->model = new LoginForm([
-            'username' => 'demo',
-            'password' => 'demo',
+            'username' => 'tester',
+            'password' => 'password_0',
         ]);
 
         expect_that($this->model->login());
         expect_not(\Yii::$app->user->isGuest);
-        expect($this->model->errors)->hasntKey('password');
+        expect($this->model->errors)->hasntKey('password_hash');
     }
-
 }

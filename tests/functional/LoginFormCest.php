@@ -1,9 +1,20 @@
 <?php
 
+use app\fixtures\User as UserFixture;
+
+/**
+ * Class LoginFormCest
+ */
 class LoginFormCest
 {
     public function _before(\FunctionalTester $I)
     {
+        $I->haveFixtures([
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => codecept_data_dir() . 'login_data.php'
+            ]
+        ]);
         $I->amOnRoute('site/login');
     }
 
@@ -13,47 +24,49 @@ class LoginFormCest
 
     }
 
-    // demonstrates `amLoggedInAs` method
-    public function internalLoginById(\FunctionalTester $I)
+    /**
+     * @param string $username
+     * @param string $password
+     * @return array
+     */
+    protected function formParams($username, $password)
     {
-        $I->amLoggedInAs(100);
-        $I->amOnPage('/');
-        $I->see('Logout (admin)');
+        return [
+            'LoginForm[username]' => $username,
+            'LoginForm[password]' => $password,
+        ];
     }
 
-    // demonstrates `amLoggedInAs` method
-    public function internalLoginByInstance(\FunctionalTester $I)
+    /**
+     * @inheritdoc
+     * @param FunctionalTester $I
+     */
+    public function checkEmpty(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(\app\models\User::findByUsername('admin'));
-        $I->amOnPage('/');
-        $I->see('Logout (admin)');
-    }
-
-    public function loginWithEmptyCredentials(\FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', []);
-        $I->expectTo('see validations errors');
+        $I->submitForm('#login-form', $this->formParams('', ''));
         $I->see('Username cannot be blank.');
         $I->see('Password cannot be blank.');
     }
 
-    public function loginWithWrongCredentials(\FunctionalTester $I)
+    /**
+     * @inheritdoc
+     * @param FunctionalTester $I
+     */
+    public function checkWrongPassword(\FunctionalTester $I)
     {
-        $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'wrong',
-        ]);
-        $I->expectTo('see validations errors');
+        $I->submitForm('#login-form', $this->formParams('erau', 'wrong'));
         $I->see('Incorrect username or password.');
     }
 
-    public function loginSuccessfully(\FunctionalTester $I)
+    /**
+     * @inheritdoc
+     * @param FunctionalTester $I
+     */
+    public function checkValidLogin(\FunctionalTester $I)
     {
-        $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'admin',
-        ]);
-        $I->see('Logout (admin)');
-        $I->dontSeeElement('form#login-form');              
+        $I->submitForm('#login-form', $this->formParams('tester', 'password_0'));
+        $I->see('Logout (tester)');
+        $I->dontSeeLink('Login');
+        $I->dontSeeLink('Signup');
     }
 }
