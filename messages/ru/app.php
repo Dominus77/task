@@ -32,4 +32,9 @@ return [
     'Sign Up' => 'Регистрация',
     'Please fill in the following fields to sign up' => 'Пожалуйста, заполните следующие поля для регистрации',
     'Thank you for registering.' => 'Спасибо за регистрацию.',
+
+    'Role' => 'Роль',
+    'All Roles' => 'Все роли',
+
+    'Tables' => 'Таблицы',
 ];

@@ -32,4 +32,9 @@ return [
     'Sign Up' => 'Sign Up',
     'Please fill in the following fields to sign up' => 'Please fill in the following fields to sign up',
     'Thank you for registering.' => 'Thank you for registering.',
+
+    'Role' => 'Role',
+    'All Roles' => 'All Roles',
+
+    'Tables' => 'Tables',
 ];
