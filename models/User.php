@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\web\IdentityInterface;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -14,9 +15,24 @@ use yii\web\IdentityInterface;
  * @property string $auth_key Authorization Key
  * @property int $created_at Created
  * @property int $updated_at Updated
+ * @property string $authKey
+ * @property string $password
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    /**
+     * @inheritdoc
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,11 +47,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'required'],
-            [['created_at', 'updated_at'], 'integer'],
-            [['username', 'password_hash'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
+            ['username', 'required'],
+            ['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
+            ['username', 'unique', 'targetClass' => self::class, 'message' => Yii::t('app', 'This username is already taken.')],
+            ['username', 'string', 'min' => 2, 'max' => 255],
         ];
     }
 
