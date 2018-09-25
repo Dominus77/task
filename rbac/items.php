@@ -1,5 +1,9 @@
 <?php
 return [
+    'accessTable' => [
+        'type' => 2,
+        'description' => 'Access Table',
+    ],
     'viewTable' => [
         'type' => 2,
         'description' => 'View Table',
@@ -12,6 +16,7 @@ return [
         'type' => 1,
         'description' => 'User',
         'children' => [
+            'accessTable',
             'viewTable',
         ],
     ],
@@ -19,6 +24,7 @@ return [
         'type' => 1,
         'description' => 'Admin',
         'children' => [
+            'accessTable',
             'viewTable',
             'editTable',
         ],

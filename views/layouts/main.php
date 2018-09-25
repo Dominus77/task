@@ -54,8 +54,8 @@ AppAsset::register($this);
             ],
             [
                 'label' => Yii::t('app', 'Tables'),
-                'url' => ['/#'],
-                'visible' => Yii::$app->user->can(Rbac::PERMISSION_VIEW_TABLE)
+                'url' => ['/table/index'],
+                'visible' => Yii::$app->user->can(Rbac::PERMISSION_ACCESS_TABLE)
             ],
             Yii::$app->user->isGuest ? (
             ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]

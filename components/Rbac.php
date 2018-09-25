@@ -16,6 +16,9 @@ class Rbac
     const ROLE_DESCRIPTION_USER = 'User';
 
     // Разрешения
+    const PERMISSION_ACCESS_TABLE = 'accessTable';
+    const PERMISSION_DESCRIPTION_ACCESS_TABLE = 'Access Table';
+
     const PERMISSION_VIEW_TABLE = 'viewTable';
     const PERMISSION_DESCRIPTION_VIEW_TABLE = 'View Table';
 

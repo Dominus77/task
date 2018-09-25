@@ -53,6 +53,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+
+                'tables' => 'table/index',
+                'tables/<_a:[\w\-]+>' => 'table/<_a>',
+
                 '' => 'site/index',
                 '<_a:[\w\-]+>' => 'site/<_a>',
             ],
