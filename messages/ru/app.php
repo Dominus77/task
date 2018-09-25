@@ -2,7 +2,7 @@
 
 return [
     'ID' => 'ID',
-    'Username' => 'Имя пользователя',
+    'Username' => 'Логин',
     'Hash Password' => 'Хэш пароля',
     'Authorization Key' => 'Ключ авторизации',
     'Created' => 'Создано',
@@ -16,4 +16,19 @@ return [
     'Not found' => 'Не найдено',
     'Done!' => 'Готово!',
     'Fail!' => 'Что то пошло не так!',
+
+    'Home' => 'Главная',
+    'About' => 'О нас',
+    'Contact' => 'Контакты',
+
+    'Login' => 'Вход',
+    'Please fill out the following fields to login' => 'Пожалуйста, заполните следующие поля для входа',
+    'Remember Me' => 'Запомнить меня',
+    'Incorrect username or password.' => 'Не верные логин или пароль',
+
+    'Logout ({:username})' => 'Выход ({:username})',
+
+    'Sign Up' => 'Регистрация',
+    'Please fill in the following fields to sign up' => 'Пожалуйста, заполните следующие поля для регистрации',
+    'Thank you for registering.' => 'Спасибо за регистрацию.',
 ];

@@ -3,22 +3,23 @@
 /**
  * @var $this yii\web\View
  * @var $form yii\bootstrap\ActiveForm
- * $model app\models\LoginForm
+ * @var $model app\models\SignupForm
  */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = Yii::t('app', 'Login');
+$this->title = Yii::t('app', 'Sign Up');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+
+<div class="site-signup">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p><?= Yii::t('app', 'Please fill out the following fields to login') ?>:</p>
+    <p><?= Yii::t('app', 'Please fill in the following fields to sign up'); ?>:</p>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
+        'id' => 'form-signup',
         'layout' => 'horizontal',
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -27,26 +28,18 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <?= $form->field($model, 'username')->textInput([
-        'placeholder' => true,
+        'placeholder' => true
     ]) ?>
 
     <?= $form->field($model, 'password')->passwordInput([
-        'placeholder' => true,
-    ]) ?>
-
-    <?= $form->field($model, 'rememberMe')->checkbox([
-        'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
+        'placeholder' => true
     ]) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton(Yii::t('app', 'Login'), [
+            <?= Html::submitButton(Yii::t('app', 'Sign Up'), [
                 'class' => 'btn btn-success',
-                'name' => 'login-button'
-            ]) ?>
-
-            <?= Html::a(Yii::t('app', 'Sign Up'), ['site/signup'], [
-                'class' => 'btn btn-primary'
+                'name' => 'signup-button'
             ]) ?>
         </div>
     </div>

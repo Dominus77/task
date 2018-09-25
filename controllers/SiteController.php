@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\SignupForm;
 
 /**
  * Class SiteController
@@ -24,10 +25,12 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['login', 'signup'],
+                        'allow' => true,
+                    ],
+                    [
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -103,6 +106,27 @@ class SiteController extends Controller
     }
 
     /**
+     * Signs users up.
+     *
+     * @return string|Response
+     * @throws \yii\base\Exception
+     */
+    public function actionSignup()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            return $this->processGoHome(Yii::t('app', 'Thank you for registering.'));
+        }
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
      * Displays contact page.
      *
      * @return Response|string
@@ -128,5 +152,18 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * @param string $message
+     * @param string $type
+     * @return \yii\web\Response
+     */
+    protected function processGoHome($message = '', $type = 'success')
+    {
+        if (!empty($message)) {
+            Yii::$app->session->setFlash($type, $message);
+        }
+        return $this->goHome();
     }
 }
