@@ -2,10 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
-use Yii;
-use api\modules\v1\models\User;
 use yii\rest\ActiveController;
-use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 
 /**
@@ -31,15 +28,10 @@ class UserController extends ActiveController
             'class' => \yii\filters\Cors::class,
         ];
 
-        /*$behaviors['authenticator'] = [
-            'class' => CompositeAuth::class,
-            'only' => ['update'],
-            'authMethods' => [
-                'bearerAuth' => [
-                    'class' => HttpBearerAuth::class,
-                ],
-            ]
-        ];*/
+        // header('Authorization: Bearer FFFF70it7tzNsHddEiq0BZ0i-OU8S3xV');
+        $behaviors['authenticator']['class'] = HttpBearerAuth::class;
+        $behaviors['authenticator']['only'] = ['update'];
+
         return $behaviors;
     }
 }

@@ -37,7 +37,7 @@ class User extends \app\models\User
     }
 
     /**
-     * /api/v1/users?expand=status
+     * /api/v1/users?expand=created_at
      * @return array
      */
     public function extraFields()

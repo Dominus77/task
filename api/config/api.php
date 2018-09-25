@@ -19,6 +19,7 @@ $config = [
     ],
     'components' => [
         'request' => [
+            'cookieValidationKey' => '10-LLBFJCzkPFn6osY6xPSsDZDfJ89joG',
             'baseUrl' => '/api',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
