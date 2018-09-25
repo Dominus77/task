@@ -33,7 +33,7 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
+            ['username', 'match', 'pattern' => '#^[\w_-]+$#i', 'message' => Yii::t('app', 'It is allowed to use the Latin alphabet, dashes and underscores.')],
             ['username', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This username is already taken.')],
             ['username', 'string', 'min' => self::LENGTH_STRING_USERNAME_MIN, 'max' => self::LENGTH_STRING_USERNAME_MAX],
 

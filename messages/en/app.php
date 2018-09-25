@@ -17,9 +17,15 @@ return [
     'Done!' => 'Done!',
     'Fail!' => 'Fail!',
 
+    'Home' => 'Home',
+    'About' => 'About',
+    'Contact' => 'Contact',
+
     'Login' => 'Login',
     'Please fill out the following fields to login' => 'Please fill out the following fields to login',
     'Remember Me' => 'Remember Me',
+    'It is allowed to use the Latin alphabet, dashes and underscores.' => 'It is allowed to use the Latin alphabet, dashes and underscores.',
+    'Incorrect username or password.' => 'Incorrect username or password.',
 
     'Logout ({:username})' => 'Logout ({:username})',
 

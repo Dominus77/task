@@ -24,6 +24,7 @@ return [
     'Login' => 'Вход',
     'Please fill out the following fields to login' => 'Пожалуйста, заполните следующие поля для входа',
     'Remember Me' => 'Запомнить меня',
+    'It is allowed to use the Latin alphabet, dashes and underscores.' => 'Разрешено использовать латиницу, знаки тире и подчеркивания.',
     'Incorrect username or password.' => 'Не верные логин или пароль',
 
     'Logout ({:username})' => 'Выход ({:username})',
