@@ -41,6 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'btn btn-success',
                 'name' => 'signup-button'
             ]) ?>
+            <?= Html::a(Yii::t('app', 'Login'), ['site/login'], [
+                'class' => 'btn btn-primary'
+            ]) ?>
         </div>
     </div>
 

@@ -10,7 +10,7 @@ $config = [
     'bootstrap' => ['log'],
     'homeUrl' => '/api',
     'aliases' => [
-        '@api' => dirname(dirname(__DIR__)) . '/api',
+        '@api' => '@app/api',
     ],
     'modules' => [
         'v1' => [

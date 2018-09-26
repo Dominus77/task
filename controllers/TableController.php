@@ -33,7 +33,7 @@ class TableController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -46,6 +46,8 @@ class TableController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index', [
+            'model' => $model
+        ]);
     }
 }

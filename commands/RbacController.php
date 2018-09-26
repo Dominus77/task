@@ -25,27 +25,27 @@ class RbacController extends Controller
         $auth = Yii::$app->getAuthManager();
         $auth->removeAll();
 
-        // Доступ к таблицам
+        // Разрешение Доступ к таблицам
         $accessTable = $auth->createPermission(Rbac::PERMISSION_ACCESS_TABLE);
         $accessTable->description = Rbac::PERMISSION_DESCRIPTION_ACCESS_TABLE;
         $auth->add($accessTable);
 
-        // Просмотр таблиц
+        // Разрешение Просмотр таблиц
         $viewTable = $auth->createPermission(Rbac::PERMISSION_VIEW_TABLE);
         $viewTable->description = Rbac::PERMISSION_DESCRIPTION_VIEW_TABLE;
         $auth->add($viewTable);
 
-        // Редактирование таблиц
+        // Разрешение Редактирование таблиц
         $editTable = $auth->createPermission(Rbac::PERMISSION_EDIT_TABLE);
         $editTable->description = Rbac::PERMISSION_DESCRIPTION_EDIT_TABLE;
         $auth->add($editTable);
 
-        // Пользователь
+        // Роль Пользователь
         $user = $auth->createRole(Rbac::ROLE_USER);
         $user->description = Rbac::ROLE_DESCRIPTION_USER;
         $auth->add($user);
 
-        // Админ
+        // Роль Админ
         $admin = $auth->createRole(Rbac::ROLE_ADMIN);
         $admin->description = Rbac::ROLE_DESCRIPTION_ADMIN;
         $auth->add($admin);
