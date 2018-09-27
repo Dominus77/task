@@ -37,4 +37,8 @@ return [
     'All Roles' => 'Все роли',
 
     'Tables' => 'Таблицы',
+
+    'File Name' => 'Имя файла',
+    'Table Name' => 'Имя таблицы',
+    'There is no such file. Use the command: {:command}' => 'Такого файла нет. Используйте команду: {:command}',
 ];

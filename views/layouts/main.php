@@ -54,7 +54,7 @@ AppAsset::register($this);
             ],
             [
                 'label' => Yii::t('app', 'Tables'),
-                'url' => ['/table/index'],
+                'url' => ['/spreadsheet/default/index'],
                 'visible' => Yii::$app->user->can(Rbac::PERMISSION_ACCESS_TABLE)
             ],
             Yii::$app->user->isGuest ? (

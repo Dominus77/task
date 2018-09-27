@@ -12,6 +12,13 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
         '@tests' => '@app/tests',
+        '@modules' => '@app/modules',
+        '@uploads' => '@app/web/uploads',
+    ],
+    'modules' => [
+        'spreadsheet' => [
+            'class' => 'modules\spreadsheet\Module',
+        ],
     ],
     'components' => [
         'cache' => [
