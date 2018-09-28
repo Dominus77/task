@@ -73,8 +73,10 @@ class DefaultController extends Controller
     public function actionShow($name)
     {
         $model = $this->findModel($name);
+        $dataProvider = $model->getDataTable();
         return $this->render('show', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
+            'name' => $name,
         ]);
     }
 
@@ -98,6 +100,7 @@ class DefaultController extends Controller
      */
     protected function findModel($name)
     {
-        return new Table(['name' => $name]);
+        $model = new Table(['tableName' => $name]);
+        return $model;
     }
 }

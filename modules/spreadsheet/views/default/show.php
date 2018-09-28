@@ -4,8 +4,10 @@
  * @var $this yii\web\View
  * @var $model modules\spreadsheet\models\Table
  * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $name string
  */
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use modules\spreadsheet\widgets\MenuWidgets;
 
@@ -15,16 +17,23 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="spreadsheet-default-show">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?>: "<?= Html::encode($name); ?>"</h1>
 
     <div class="row">
         <div class="col-md-3">
             <?= MenuWidgets::widget() ?>
         </div>
         <div class="col-md-9">
-            <?php
-            //\yii\helpers\VarDumper::dump($model->getFilesNames(), 10, 1);
-            ?>
+            <?= GridView::widget([
+                'id' => 'grid-tables',
+                'dataProvider' => $dataProvider,
+                //'filterModel' => $searchModel,
+                'filterSelector' => 'select[name="per-page"]',
+                'layout' => "{items}",
+                'tableOptions' => [
+                    'class' => 'table table-bordered table-hover',
+                ],
+            ]); ?>
         </div>
     </div>
 </div>

@@ -3,11 +3,12 @@
 namespace modules\spreadsheet\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use modules\spreadsheet\traits\ModuleTrait;
 use app\components\Rbac;
-use yii\helpers\VarDumper;
+use yii\base\Model;
+use yii\db\Query;
+use yii\data\ActiveDataProvider;
 
 /**
  * Class Table
@@ -16,11 +17,16 @@ use yii\helpers\VarDumper;
  * @property array $allTables
  * @property array $itemsToMenu
  */
-class Table extends \yii\db\ActiveRecord
+class Table extends Model
 {
     use ModuleTrait;
 
-    public $name = null;
+    public $tableName;
+
+    public function init()
+    {
+        parent::init();
+    }
 
     /**
      * {@inheritdoc}
@@ -95,15 +101,21 @@ class Table extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return null
+     * @return null|ActiveDataProvider
      */
-    public function getAllItems()
+    public function getDataTable()
     {
-        if ($this->name !== null) {
-            $table_name = $this->name;
+        if ($this->tableName) {
             $db = Yii::$app->db;
-            if ($db->getTableSchema($table_name, true) !== null) {
-                return null;
+            if ($db->getTableSchema($this->tableName, true) !== null) {
+                $query = (new Query())->from($this->tableName);
+                $provider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ],
+                ]);
+                return $provider;
             }
         }
         return null;
