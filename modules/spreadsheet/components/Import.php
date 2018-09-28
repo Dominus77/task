@@ -308,13 +308,12 @@ class Import
             $rowIterator = $spreadsheet->getActiveSheet()->getRowIterator();
 
             foreach ($rowIterator as $row) {
+                $cellIterator = $row->getCellIterator();
                 if ($row->getRowIndex() == 1) {
-                    $cellIterator = $row->getCellIterator();
                     foreach ($cellIterator as $cell) {
                         $this->cells[$cell->getColumn()] = $cell->getCalculatedValue();
                     }
                 } else {
-                    $cellIterator = $row->getCellIterator();
                     foreach ($cellIterator as $cell) {
                         $cellPath = $cell->getColumn();
                         if (isset($this->cells[$cellPath])) {
