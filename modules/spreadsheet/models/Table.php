@@ -20,6 +20,8 @@ class Table extends \yii\db\ActiveRecord
 {
     use ModuleTrait;
 
+    public $name;
+
     /**
      * {@inheritdoc}
      * @return array
