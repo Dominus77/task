@@ -35,10 +35,13 @@ return [
 
     'Role' => 'Роль',
     'All Roles' => 'Все роли',
+    'The user already has a role.' => 'Пользователю уже присвоена роль.',
 
     'Tables' => 'Таблицы',
 
     'File Name' => 'Имя файла',
     'Table Name' => 'Имя таблицы',
     'There is no such file. Use the command: {:command}' => 'Такого файла нет. Используйте команду: {:command}',
+
+    'View' => 'Просмотр',
 ];

@@ -35,10 +35,13 @@ return [
 
     'Role' => 'Role',
     'All Roles' => 'All Roles',
+    'The user already has a role.' => 'The user already has a role.',
 
     'Tables' => 'Tables',
 
     'File Name' => 'File Name',
     'Table Name' => 'Table Name',
     'There is no such file. Use the command: {:command}' => 'There is no such file. Use the command: {:command}',
+
+    'View' => 'View',
 ];
