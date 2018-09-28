@@ -31,6 +31,7 @@ class ImportController extends Controller
         echo 'yii spreadsheet/import/create-table' . PHP_EOL;
         echo 'yii spreadsheet/import/remove-table' . PHP_EOL;
         echo 'yii spreadsheet/import/load-data' . PHP_EOL;
+        echo 'yii spreadsheet/import/clear-data' . PHP_EOL;
     }
 
     /**
@@ -42,7 +43,7 @@ class ImportController extends Controller
     }
 
     /**
-     * Create Table
+     * Create select table
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
@@ -61,7 +62,7 @@ class ImportController extends Controller
     }
 
     /**
-     * Remove Table
+     * Remove select table
      *
      * @throws \yii\db\Exception
      */
@@ -77,7 +78,7 @@ class ImportController extends Controller
     }
 
     /**
-     * Loading data into the database table
+     * Loading data into the database select table
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
@@ -87,7 +88,6 @@ class ImportController extends Controller
     {
         $result = false;
         $names = array_flip($this->getFilesNames());
-
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
             $file = ArrayHelper::getValue($names, $name);
@@ -96,6 +96,28 @@ class ImportController extends Controller
                 $result = $model->loadDataDbTable($file);
             }
         }
+        if ($result) {
+            $this->log(true);
+        } else {
+            $this->log(false);
+        }
+    }
+
+    /**
+     * Clear Data select table
+     *
+     * @throws \yii\db\Exception
+     */
+    public function actionClearData()
+    {
+        $result = false;
+        $names = array_flip($this->getFilesNames());
+        if (($select = Console::convertEncoding($names)) && is_array($select)) {
+            $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
+            $model = new Import();
+            $result = $model->clearTable($name);
+        }
+
         if ($result) {
             $this->log(true);
         } else {
