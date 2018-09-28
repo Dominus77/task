@@ -268,7 +268,10 @@ class Import
      * $result = [
      *      'name' => 'fileName',
      *      'data' => [
-     *          'attribute' => 'value',
+     *          2 => [
+     *              'attribute' => 'value',
+     *              //...
+     *          ],
      *          //...
      *      ],
      *      'types' => [
