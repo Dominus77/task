@@ -39,7 +39,7 @@ class Import
             DataType::TYPE_FORMULA => 'TEXT',
             DataType::TYPE_INLINE => 'TEXT',
             DataType::TYPE_NULL => 'TEXT',
-            DataType::TYPE_NUMERIC => 'INTEGER',
+            DataType::TYPE_NUMERIC => 'TEXT',
             DataType::TYPE_STRING => 'TEXT',
             DataType::TYPE_STRING2 => 'TEXT',
         ];
@@ -54,11 +54,8 @@ class Import
     {
         $data = $this->_parseData;
         if (isset($data['types'])) {
-            if (!isset($data['types']['id'])) {
-                $IdElement = ['id' => ArrayHelper::getValue($this->getTypesArray(), 'n')];
-                $data['types'] = ArrayHelper::merge($IdElement, $data['types']);
-            }
-            return $data['types'];
+            $result = ['id' => 'INTEGER'] + $data['types'];
+            return $result;
         }
         return [];
     }
