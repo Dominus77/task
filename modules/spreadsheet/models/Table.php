@@ -22,21 +22,6 @@ class Table extends \yii\db\ActiveRecord
 
     public $name = null;
 
-    //public static $_tableName;
-
-    /**
-     * @return string
-     */
-    /*public static function tableName()
-    {
-        return self::$_tableName;
-    }​*/
-
-    /*public function SetTableName()
-    {
-        return self::$_tableName;
-    }​*/
-
     /**
      * {@inheritdoc}
      * @return array
@@ -81,7 +66,7 @@ class Table extends \yii\db\ActiveRecord
         $items = [];
         foreach ($files as $key => $value) {
             $count = $this->getCountItemsTable($value);
-            if (($count !== false) && (int)$count >= 0) {
+            if (($count !== false) && $count >= 0) {
                 $items[$key]['label'] = Html::tag('span', $count, ['class' => 'badge pull-right']) . $value;
                 $items[$key]['url'] = ['/spreadsheet/default/show', 'name' => $value];
                 $items[$key]['visible'] = Yii::$app->user->can(Rbac::PERMISSION_VIEW_TABLE);
@@ -102,9 +87,8 @@ class Table extends \yii\db\ActiveRecord
         if ($table_name) {
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
-                $command = $db->createCommand('SELECT COUNT(*) FROM ' . $table_name . ';');
-                $result = $command->queryAll();
-                return $result[0]['COUNT(*)'];
+                $result = $db->createCommand('select count(*) from ' . $table_name)->queryScalar();
+                return $result;
             }
         }
         return false;
@@ -119,8 +103,6 @@ class Table extends \yii\db\ActiveRecord
             $table_name = $this->name;
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
-                $command = $db->createCommand('SELECT COUNT(*) FROM ' . $table_name . ';');
-                //$result = $command->queryAll();
                 return null;
             }
         }
