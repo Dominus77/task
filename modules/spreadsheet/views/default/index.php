@@ -19,9 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
         //\yii\helpers\VarDumper::dump($model->getAllTables(), 10, 1);
         //\yii\helpers\VarDumper::dump($model->createColumns(), 10, 1);
         $files = $model->getFiles();
-        $model->parseFile($files[0]);
+        $parse = $model->parseFile($files[0]);
         $columns = $model->getColumns();
-        \yii\helpers\VarDumper::dump($columns, 10, 1);
+        \yii\helpers\VarDumper::dump($parse, 10, 1);
         ?>
     </p>
 </div>
