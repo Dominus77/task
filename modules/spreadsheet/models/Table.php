@@ -112,7 +112,7 @@ class Table extends Model
                 $provider = new ActiveDataProvider([
                     'query' => $query,
                     'pagination' => [
-                        'pageSize' => 10,
+                        'pageSize' => 5,
                     ],
                 ]);
                 return $provider;

@@ -28,8 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id' => 'grid-tables',
                 'dataProvider' => $dataProvider,
                 //'filterModel' => $searchModel,
-                'filterSelector' => 'select[name="per-page"]',
-                'layout' => "{items}",
                 'tableOptions' => [
                     'class' => 'table table-bordered table-hover',
                 ],
