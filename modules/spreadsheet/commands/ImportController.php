@@ -51,14 +51,19 @@ class ImportController extends Controller
      */
     public function actionCreateTable()
     {
+        $result = false;
         $names = array_flip($this->getFilesNames());
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $sel = $this->select(Console::convertEncoding(Yii::t('app', 'File Name')) . ':', $select);
             $file = ArrayHelper::getValue($names, $sel);
             $model = new Import();
-            $model->createDbTable($file);
+            $result = $model->createDbTable($file);
         }
-        $this->log(true);
+        if ($result) {
+            $this->log(true);
+        } else {
+            $this->log(false);
+        }
     }
 
     /**

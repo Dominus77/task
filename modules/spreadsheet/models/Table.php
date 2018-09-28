@@ -20,7 +20,22 @@ class Table extends \yii\db\ActiveRecord
 {
     use ModuleTrait;
 
-    public $name;
+    public $name = null;
+
+    //public static $_tableName;
+
+    /**
+     * @return string
+     */
+    /*public static function tableName()
+    {
+        return self::$_tableName;
+    }​*/
+
+    /*public function SetTableName()
+    {
+        return self::$_tableName;
+    }​*/
 
     /**
      * {@inheritdoc}
@@ -93,5 +108,22 @@ class Table extends \yii\db\ActiveRecord
             }
         }
         return false;
+    }
+
+    /**
+     * @return null
+     */
+    public function getAllItems()
+    {
+        if ($this->name !== null) {
+            $table_name = $this->name;
+            $db = Yii::$app->db;
+            if ($db->getTableSchema($table_name, true) !== null) {
+                $command = $db->createCommand('SELECT COUNT(*) FROM ' . $table_name . ';');
+                //$result = $command->queryAll();
+                return null;
+            }
+        }
+        return null;
     }
 }

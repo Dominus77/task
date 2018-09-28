@@ -3,6 +3,7 @@
 /**
  * @var $this yii\web\View
  * @var $model modules\spreadsheet\models\Table
+ * @var $import modules\spreadsheet\components\Import
  */
 
 use yii\helpers\Html;
@@ -21,7 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-9">
             <?php
-            \yii\helpers\VarDumper::dump($model->getFilesNames(), 10, 1);
+            $files = $import->getFiles();
+            $parse = $import->parseFile($files[0]);
+            $import->loadDataDbTable($files[0]);
+            \yii\helpers\VarDumper::dump($parse, 10, 1);
             ?>
         </div>
     </div>

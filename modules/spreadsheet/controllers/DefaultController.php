@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\components\Rbac;
 use modules\spreadsheet\models\Table;
+use modules\spreadsheet\components\Import;
 
 /**
  * Class DefaultController
@@ -56,8 +57,10 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $model = new Table();
+        $import = new Import();
         return $this->render('index', [
             'model' => $model,
+            'import' => $import,
         ]);
     }
 
@@ -95,6 +98,6 @@ class DefaultController extends Controller
      */
     protected function findModel($name)
     {
-        return new Table();
+        return new Table(['name' => $name]);
     }
 }

@@ -64,25 +64,6 @@ class Import
     }
 
     /**
-     * Формируем строку колонок для создания таблицы
-     *
-     * @return string
-     */
-    public function getDbColumnTable()
-    {
-        $columns = $this->getColumns();
-        $str = '';
-        foreach ($columns as $key => $value) {
-            if ($key == 'id') {
-                $str .= $key . ' ' . $value . ' AUTO_INCREMENT, ';
-            } else {
-                $str .= $key . ' ' . $value . ', ';
-            }
-        }
-        return $str;
-    }
-
-    /**
      * Создаем таблицу если она еще не создана
      *
      * @param string $file
@@ -96,16 +77,15 @@ class Import
         if ($file) {
             $this->_parseData = $this->parseFile($file);
             $table_name = $this->_parseData['name'];
-
-            $columns = $this->getDbColumnTable();
-            $db = Yii::$app->db;
-            if ($db->getTableSchema($table_name, true) === null) {
-                if ($columns) {
-                    $query = $db->createCommand('CREATE TABLE ' . $table_name . ' (' . $columns . ' PRIMARY KEY (id)) ENGINE InnoDB CHARACTER SET utf8;');
-                    $query->query();
+            if ($column = $this->getColumns()) {
+                $db = Yii::$app->db;
+                if ($db->getTableSchema($table_name, true) === null) {
+                    $db->createCommand()->createTable($table_name, $column)->execute();
+                    $db->createCommand()->addPrimaryKey($table_name . '_pk', $table_name, 'id')->execute();
+                    $db->createCommand()->alterColumn($table_name, 'id', 'INTEGER NOT NULL AUTO_INCREMENT')->execute();
                 }
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -122,10 +102,9 @@ class Import
         if ($table_name) {
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
-                $query = $db->createCommand('DROP TABLE ' . $table_name . ';');
-                $query->query();
-                return true;
+                $db->createCommand()->dropTable($table_name)->execute();
             }
+            return true;
         }
         return false;
     }
@@ -146,38 +125,30 @@ class Import
             $table_name = $this->_parseData['name'];
 
             $arr = $this->_parseData['data'];
-
-            // Поля
-            $fields = '';
+            // Атрибуты
+            $fields = [];
             foreach ($arr[2] as $key => $cell) {
                 if ($key != 'id') {
-                    $fields .= '`' . $key . '`' . ',';
+                    $fields[] = $key;
                 }
             }
-            $fields = trim($fields, ',');
-
-            $db = Yii::$app->db;
-
             // Значения
-            $str = '';
+            $values = [];
+            $i = 0;
             foreach ($arr as $item) {
-                $str .= "(";
                 foreach ($item as $key => $cell) {
                     if ($key != 'id') {
-                        $str .= $db->quoteValue($cell) . ",";
+                        $values[$i][] = $cell;
                     }
                 }
-                $str = trim($str, ",");
-                $str .= "),";
+                $i++;
             }
-            $str = trim($str, ",");
 
+            $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
                 $transaction = $db->beginTransaction();
                 try {
-                    // INSERT INTO `table_name` (``,``,``...) VALUES ('','','',...);
-                    $query = $db->createCommand('INSERT INTO `' . $table_name . '` (' . $fields . ') VALUES ' . $str . ';');
-                    $query->query();
+                    $db->createCommand()->batchInsert($table_name, $fields, $values)->execute();
                     $transaction->commit();
                 } catch (\Exception $e) {
                     $transaction->rollback();
@@ -200,10 +171,8 @@ class Import
         if ($table_name) {
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
-                $query = $db->createCommand('TRUNCATE `' . $table_name . '`;');
-                $result = $query->query();
-                if ($result)
-                    return true;
+                $db->createCommand()->truncateTable($table_name)->execute();
+                return true;
             }
         }
         return false;
