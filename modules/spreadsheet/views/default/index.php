@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             $files = $import->getFiles();
             $parse = $import->parseFile($files[0]);
-            $import->loadDataDbTable($files[0]);
+            //$import->loadDataDbTable($files[0]);
             \yii\helpers\VarDumper::dump($parse, 10, 1);
             ?>
         </div>
