@@ -3,7 +3,10 @@
 namespace modules\spreadsheet\controllers;
 
 use yii\web\Controller;
-use modules\spreadsheet\components\Import;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use app\components\Rbac;
+use modules\spreadsheet\models\Table;
 
 /**
  * Class DefaultController
@@ -12,14 +15,38 @@ use modules\spreadsheet\components\Import;
 class DefaultController extends Controller
 {
     /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [Rbac::PERMISSION_ACCESS_TABLE],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * Renders the index view for the module
      * @return string
      */
     public function actionIndex()
     {
-        $model = new Import();
+        $model = new Table();
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 }

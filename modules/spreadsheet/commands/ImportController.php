@@ -7,6 +7,7 @@ use yii\console\Controller;
 use yii\console\Exception;
 use app\components\helpers\Console;
 use modules\spreadsheet\components\Import;
+use modules\spreadsheet\traits\ModuleTrait;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -15,6 +16,8 @@ use yii\helpers\ArrayHelper;
  */
 class ImportController extends Controller
 {
+    use ModuleTrait;
+
     public $color = true;
 
     /**
@@ -35,8 +38,7 @@ class ImportController extends Controller
      */
     public function actionShowFilesNames()
     {
-        $model = new Import();
-        $this->stderr(Console::convertEncoding(implode(PHP_EOL, $model->getFilesNames())), Console::FG_GREEN, Console::BOLD);
+        $this->stderr(Console::convertEncoding(implode(PHP_EOL, $this->getFilesNames())), Console::FG_GREEN, Console::BOLD);
     }
 
     /**
@@ -48,11 +50,11 @@ class ImportController extends Controller
      */
     public function actionCreateTable()
     {
-        $model = new Import();
-        $names = array_flip($model->getFilesNames());
+        $names = array_flip($this->getFilesNames());
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $sel = $this->select(Console::convertEncoding(Yii::t('app', 'File Name')) . ':', $select);
             $file = ArrayHelper::getValue($names, $sel);
+            $model = new Import();
             $model->createDbTable($file);
         }
         $this->log(true);
@@ -65,10 +67,10 @@ class ImportController extends Controller
      */
     public function actionRemoveTable()
     {
-        $model = new Import();
-        $names = array_flip($model->getFilesNames());
+        $names = array_flip($this->getFilesNames());
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
+            $model = new Import();
             $model->removeDbTable($name);
         }
         $this->log(true);
@@ -84,12 +86,12 @@ class ImportController extends Controller
     public function actionLoadData()
     {
         $result = false;
-        $model = new Import();
-        $names = array_flip($model->getFilesNames());
+        $names = array_flip($this->getFilesNames());
 
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
             $file = ArrayHelper::getValue($names, $name);
+            $model = new Import();
             if ($model->clearTable($name)) {
                 $result = $model->loadDataDbTable($file);
             }
