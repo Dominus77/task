@@ -8,9 +8,9 @@ git clone https://github.com/Dominus77/task.git task
 ```
 Переходим в папку с проектом и выполняем
 ```
-php composer.phar self-update
-php composer.phar install
-php composer.phar update
+composer self-update
+composer install
+composer update
 ```
 
 ## Настройка
