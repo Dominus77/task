@@ -26,6 +26,7 @@ class ImportController extends Controller
     {
         echo 'yii spreadsheet/import/show-files-names' . PHP_EOL;
         echo 'yii spreadsheet/import/create-table' . PHP_EOL;
+        echo 'yii spreadsheet/import/remove-table' . PHP_EOL;
         echo 'yii spreadsheet/import/load-data' . PHP_EOL;
     }
 
