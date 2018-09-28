@@ -3,11 +3,10 @@
 /**
  * @var $this yii\web\View
  * @var $model modules\spreadsheet\models\Table
- * @var $dataProvider yii\data\ActiveDataProvider
  */
 
 use yii\helpers\Html;
-use yii\widgets\Menu;
+use modules\spreadsheet\widgets\MenuWidgets;
 
 $this->title = Yii::t('app', 'Tables');
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,14 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-md-3">
-            <?= Menu::widget([
-                'encodeLabels' => false,
-                'options' => [
-                    'class' => 'nav nav-pills nav-stacked',
-                ],
-                'items' => $model->getItemsToMenu(),
-            ]);
-            ?>
+            <?= MenuWidgets::widget() ?>
         </div>
         <div class="col-md-9">
             <?php
