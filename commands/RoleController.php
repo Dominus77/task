@@ -29,8 +29,14 @@ class RoleController extends Controller
         $roleName = $this->select(Console::convertEncoding(Yii::t('app', 'Role')) . ':', ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description'));
         $authManager = Yii::$app->getAuthManager();
         $role = $authManager->getRole($roleName);
-        $authManager->assign($role, $user->id);
-        $this->log(true);
+        // Проверяем есть ли уже такая роль у пользователя
+        $userRoles = $this->getUserRoleValue($user->id);
+        if ($userRoles === null) {
+            $authManager->assign($role, $user->id);
+            $this->log(true);
+        } else {
+            $this->stdout(Console::convertEncoding(Yii::t('app', 'The user already has a role.')) . PHP_EOL, Console::FG_RED, Console::BOLD);
+        }
     }
 
     /**
@@ -54,6 +60,24 @@ class RoleController extends Controller
             $authManager->revoke($role, $user->id);
         }
         $this->log(true);
+    }
+
+    /**
+     * @param string|int $user_id
+     * @return mixed|null
+     */
+    public function getUserRoleValue($user_id)
+    {
+        $authManager = Yii::$app->authManager;
+        if ($role = $authManager->getRolesByUser($user_id)) {
+            return ArrayHelper::getValue($role, function ($role) {
+                foreach ($role as $key => $value) {
+                    return $value->name;
+                }
+                return null;
+            });
+        }
+        return null;
     }
 
     /**

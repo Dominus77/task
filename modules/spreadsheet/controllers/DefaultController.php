@@ -24,8 +24,18 @@ class DefaultController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => [Rbac::PERMISSION_ACCESS_TABLE],
+                    ],
+                    [
+                        'actions' => ['show', 'view'],
+                        'allow' => true,
+                        'roles' => [Rbac::PERMISSION_VIEW_TABLE],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => [Rbac::PERMISSION_EDIT_TABLE],
                     ],
                 ],
             ],
@@ -40,6 +50,7 @@ class DefaultController extends Controller
 
     /**
      * Renders the index view for the module
+     *
      * @return string
      */
     public function actionIndex()
@@ -48,5 +59,42 @@ class DefaultController extends Controller
         return $this->render('index', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Вывод таблицы
+     *
+     * @param string $name
+     * @return string
+     */
+    public function actionShow($name)
+    {
+        $model = $this->findModel($name);
+        return $this->render('show', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Вывод данных таблицы
+     *
+     * @param string $name
+     * @return string
+     */
+    public function actionView($name)
+    {
+        $model = $this->findModel($name);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param string $name
+     * @return Table
+     */
+    protected function findModel($name)
+    {
+        return new Table();
     }
 }

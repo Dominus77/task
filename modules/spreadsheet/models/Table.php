@@ -66,7 +66,7 @@ class Table extends \yii\db\ActiveRecord
             $count = $this->getCountItemsTable($value);
             if (($count !== false) && (int)$count >= 0) {
                 $items[$key]['label'] = Html::tag('span', $count, ['class' => 'badge pull-right']) . $value;
-                $items[$key]['url'] = ['/spreadsheet/default/view', 'name' => $value];
+                $items[$key]['url'] = ['/spreadsheet/default/show', 'name' => $value];
                 $items[$key]['visible'] = Yii::$app->user->can(Rbac::PERMISSION_ACCESS_TABLE);
             }
         }
