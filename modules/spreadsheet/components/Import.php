@@ -4,7 +4,6 @@ namespace modules\spreadsheet\components;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use modules\spreadsheet\traits\ModuleTrait;
 
@@ -17,11 +16,6 @@ class Import
     use ModuleTrait;
 
     /**
-     * @var string
-     */
-    public $pattern = '*.xls';
-
-    /**
      * @var array
      */
     public $cells = [];
@@ -29,63 +23,7 @@ class Import
     /**
      * @var null
      */
-    private $_dir = null;
-
-    /**
-     * @var null
-     */
     private $_parseData = null;
-
-    /**
-     * Import constructor.
-     */
-    public function __construct()
-    {
-        $this->getDir();
-    }
-
-    /**
-     * Возвращает путь к директории
-     *
-     * @return bool|string
-     */
-    private function getDir()
-    {
-        if ($this->_dir === null) {
-            $this->_dir = $this->getUploadPath();
-        }
-        return $this->_dir;
-    }
-
-    /**
-     * Возвращает файлы с указаным расширением из директории
-     *
-     * @return array
-     */
-    public function getFiles()
-    {
-        return FileHelper::findFiles($this->_dir, [
-            'only' => [$this->pattern],
-        ]);
-    }
-
-    /**
-     * Возвращает имена файлов
-     *
-     * @return array
-     */
-    public function getFilesNames()
-    {
-        $files = $this->getFiles();
-        $names = [];
-        foreach ($files as $file) {
-            if (file_exists($file)) {
-                $info = pathinfo($file);
-                $names[$file] = ArrayHelper::getValue($info, 'filename');
-            }
-        }
-        return $names;
-    }
 
     /**
      * Колонки
