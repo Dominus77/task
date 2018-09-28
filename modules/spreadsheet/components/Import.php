@@ -313,8 +313,7 @@ class Import
                     foreach ($cellIterator as $cell) {
                         $this->cells[$cell->getColumn()] = $cell->getCalculatedValue();
                     }
-                }
-                if ($row->getRowIndex() != 1) {
+                } else {
                     $cellIterator = $row->getCellIterator();
                     foreach ($cellIterator as $cell) {
                         $cellPath = $cell->getColumn();
