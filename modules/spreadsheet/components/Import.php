@@ -5,6 +5,7 @@ namespace modules\spreadsheet\components;
 use Yii;
 use yii\helpers\ArrayHelper;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use modules\spreadsheet\traits\ModuleTrait;
 
 /**
@@ -24,6 +25,25 @@ class Import
      * @var null
      */
     private $_parseData = null;
+
+    /**
+     * Return types
+     *
+     * @return array
+     */
+    public function getTypesArray()
+    {
+        return [
+            DataType::TYPE_BOOL => 'BOOLEAN',
+            DataType::TYPE_ERROR => 'TEXT',
+            DataType::TYPE_FORMULA => 'TEXT',
+            DataType::TYPE_INLINE => 'TEXT',
+            DataType::TYPE_NULL => 'TEXT',
+            DataType::TYPE_NUMERIC => 'INTEGER',
+            DataType::TYPE_STRING => 'TEXT',
+            DataType::TYPE_STRING2 => 'TEXT',
+        ];
+    }
 
     /**
      * Колонки

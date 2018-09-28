@@ -3,7 +3,6 @@
 namespace modules\spreadsheet\traits;
 
 use Yii;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use yii\helpers\FileHelper;
 use yii\helpers\ArrayHelper;
 use modules\spreadsheet\Module;
@@ -72,24 +71,5 @@ trait ModuleTrait
             }
         }
         return $names;
-    }
-
-    /**
-     * Return types
-     *
-     * @return array
-     */
-    public function getTypesArray()
-    {
-        return [
-            DataType::TYPE_BOOL => 'BOOLEAN',
-            DataType::TYPE_ERROR => 'TEXT',
-            DataType::TYPE_FORMULA => 'TEXT',
-            DataType::TYPE_INLINE => 'TEXT',
-            DataType::TYPE_NULL => 'TEXT',
-            DataType::TYPE_NUMERIC => 'INTEGER',
-            DataType::TYPE_STRING => 'TEXT',
-            DataType::TYPE_STRING2 => 'TEXT',
-        ];
     }
 }
