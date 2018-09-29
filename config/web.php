@@ -62,7 +62,9 @@ $config = [
             'rules' => [
 
                 'spreadsheet' => 'spreadsheet/default/index',
+                'spreadsheet/<name:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
                 'spreadsheet/<name:[\w\-]+>/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
+                'spreadsheet/<id:\d+>/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
                 'spreadsheet/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
 
                 '' => 'site/index',

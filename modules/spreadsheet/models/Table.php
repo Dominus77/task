@@ -9,6 +9,8 @@ use app\components\Rbac;
 use yii\base\Model;
 use yii\db\Query;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\helpers\VarDumper;
 
 /**
  * Class Table
@@ -98,6 +100,43 @@ class Table extends Model
             }
         }
         return false;
+    }
+
+    /**
+     * Атрибуты
+     * @return array
+     */
+    public function getFieldsTable()
+    {
+        $fields = [];
+        if ($this->tableName) {
+            $db = Yii::$app->db;
+            $columns = $db->getTableSchema($this->tableName)->columns;
+            foreach ($columns as $item) {
+                $fields[] = $item->name;
+            }
+        }
+        return $fields;
+    }
+
+    /**
+     * @return null|ArrayDataProvider
+     * @throws \yii\db\Exception
+     */
+    public function getDataProviderArray()
+    {
+        if ($this->tableName) {
+            $db = Yii::$app->db;
+            $models = $db->createCommand('SELECT * FROM ' . $this->tableName)->queryAll();
+            $provider = new ArrayDataProvider([
+                'allModels' => $models,
+                'pagination' => [
+                    'pageSize' => 5,
+                ],
+            ]);
+            return $provider;
+        }
+        return null;
     }
 
     /**

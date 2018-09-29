@@ -43,5 +43,10 @@ return [
     'Table Name' => 'Имя таблицы',
     'There is no such file. Use the command: {:command}' => 'Такого файла нет. Используйте команду: {:command}',
 
+    'Actions' => 'Действия',
     'View' => 'Просмотр',
+    'Update' => 'Редактировать',
+    'Delete' => 'Удалить',
+
+    'Are you sure you want to delete this item?' => 'Вы уверены что хотите удалить этот элемент?',
 ];

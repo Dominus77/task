@@ -69,36 +69,41 @@ class DefaultController extends Controller
      *
      * @param string $name
      * @return string
+     * @throws \yii\db\Exception
      */
     public function actionShow($name)
     {
         $model = $this->findModel($name);
-        $dataProvider = $model->getDataTable();
+        $dataProvider = $model->getDataProviderArray();
         return $this->render('show', [
             'dataProvider' => $dataProvider,
+            'model' => $model,
             'name' => $name,
         ]);
     }
 
     /**
-     * Вывод данных таблицы
+     * Просмотр данных таблицы
      *
      * @param string $name
+     * @param integer $id
      * @return string
      */
-    public function actionView($name)
+    public function actionView($name, $id)
     {
         $model = $this->findModel($name);
         return $this->render('view', [
             'model' => $model,
+            'name' => $name,
         ]);
     }
 
     /**
      * @param string $name
+     * @param integer $id
      * @return Table
      */
-    protected function findModel($name)
+    protected function findModel($name, $id = 0)
     {
         $model = new Table(['tableName' => $name]);
         return $model;
