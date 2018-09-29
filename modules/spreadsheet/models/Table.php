@@ -7,10 +7,7 @@ use yii\helpers\Html;
 use modules\spreadsheet\traits\ModuleTrait;
 use app\components\Rbac;
 use yii\base\Model;
-use yii\db\Query;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-use yii\helpers\VarDumper;
 
 /**
  * Class Table
@@ -104,6 +101,7 @@ class Table extends Model
 
     /**
      * Атрибуты
+     *
      * @return array
      */
     public function getFieldsTable()
@@ -138,27 +136,6 @@ class Table extends Model
                 ],
             ]);
             return $provider;
-        }
-        return null;
-    }
-
-    /**
-     * @return null|ActiveDataProvider
-     */
-    public function getDataTable()
-    {
-        if ($this->tableName) {
-            $db = Yii::$app->db;
-            if ($db->getTableSchema($this->tableName, true) !== null) {
-                $query = (new Query())->from($this->tableName);
-                $provider = new ActiveDataProvider([
-                    'query' => $query,
-                    'pagination' => [
-                        'pageSize' => 5,
-                    ],
-                ]);
-                return $provider;
-            }
         }
         return null;
     }
