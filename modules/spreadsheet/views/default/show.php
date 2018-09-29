@@ -12,6 +12,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use modules\spreadsheet\widgets\MenuWidgets;
 
+$name = $model->tableName;
 $this->title = Yii::t('app', 'View');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tables'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -71,8 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-9">
             <?= GridView::widget([
                 'id' => 'grid-tables',
-                'dataProvider' => $dataProvider,
-                //'filterModel' => $searchModel,
+                'dataProvider' => $model->getActiveProvider(),
                 'tableOptions' => [
                     'class' => 'table table-bordered table-hover',
                 ],

@@ -3,11 +3,12 @@
 namespace modules\spreadsheet\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use modules\spreadsheet\traits\ModuleTrait;
 use app\components\Rbac;
 use yii\base\Model;
-use yii\data\ArrayDataProvider;
+use yii\db\Query;
 
 /**
  * Class Table
@@ -99,16 +100,17 @@ class Table extends Model
     }
 
     /**
-     * @return null|ArrayDataProvider
-     * @throws \yii\db\Exception
+     * Вывод таблицы
+     *
+     * @return null|ActiveDataProvider
      */
-    public function getDataProviderArray()
+    public function getActiveProvider()
     {
         if ($this->tableName) {
-            $db = Yii::$app->db;
-            $models = $db->createCommand('SELECT * FROM ' . $this->tableName)->queryAll();
-            $provider = new ArrayDataProvider([
-                'allModels' => $models,
+            $query = new Query;
+            $query->from($this->tableName);
+            $provider = new ActiveDataProvider([
+                'query' => $query,
                 'pagination' => [
                     'pageSize' => 5,
                 ],
@@ -117,6 +119,24 @@ class Table extends Model
                 ],
             ]);
             return $provider;
+        }
+        return null;
+    }
+
+    /**
+     * Вывод данных таблицы
+     *
+     * @param integer $id
+     * @return array|bool|null
+     */
+    public function getViewModel($id)
+    {
+        if ($this->tableName) {
+            $query = new Query;
+            $model = $query->from($this->tableName)
+                ->where(['id' => $id])
+                ->one();
+            return $model;
         }
         return null;
     }
