@@ -29,8 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         $columns = ArrayHelper::merge([['class' => 'yii\grid\SerialColumn']], $model->getFieldsTable());
         $columns = ArrayHelper::merge($columns, [[
             'class' => 'yii\grid\ActionColumn',
-            'header' => Yii::t('app', 'Actions'),
-            'template' => '{view} {update} {delete}',
+            //'header' => Yii::t('app', 'Actions'),
+            //'template' => '{view} {update} {delete}',
+            'template' => '{view}',
             'buttons' => [
                 'view' => function ($url, $model, $key) use ($name) {
                     return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', [
