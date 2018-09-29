@@ -133,6 +133,9 @@ class Table extends Model
                 'pagination' => [
                     'pageSize' => 5,
                 ],
+                'sort' => [
+                    'attributes' => $this->getFieldsTable(),
+                ],
             ]);
             return $provider;
         }
