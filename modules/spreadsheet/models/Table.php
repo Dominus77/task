@@ -22,11 +22,6 @@ class Table extends Model
 
     public $tableName;
 
-    public function init()
-    {
-        parent::init();
-    }
-
     /**
      * {@inheritdoc}
      * @return array
@@ -42,20 +37,6 @@ class Table extends Model
     public function attributeLabels()
     {
         return [];
-    }
-
-    /**
-     * Show all tables
-     * TODO: временная функция
-     * @return array
-     * @throws \yii\db\Exception
-     */
-    public function getAllTables()
-    {
-        $db = Yii::$app->db;
-        $query = $db->createCommand('SHOW TABLES;');
-        $result = $query->queryAll();
-        return $result;
     }
 
     /**
