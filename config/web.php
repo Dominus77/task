@@ -60,19 +60,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-
                 'spreadsheet' => 'spreadsheet/default/index',
 
-                'spreadsheet/<_c:[\w\-]+>' => 'spreadsheet/<_c>',
+                'spreadsheet/<_c:[\w\-]+>' => 'spreadsheet/<_c>/index',
                 'spreadsheet/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => 'spreadsheet/<_c>/<_a>',
-
                 'spreadsheet/<_c:[\w\-]+>/<_a:[\w\-]+>' => 'spreadsheet/<_c>/<_a>',
-                //'spreadsheet/<_c:[\w\-]+>' => 'spreadsheet/<_c>',
-
-                /*'spreadsheet/<name:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
-                'spreadsheet/<name:[\w\-]+>/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
-                'spreadsheet/<id:\d+>/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',
-                'spreadsheet/<_a:[\w\-]+>' => 'spreadsheet/default/<_a>',*/
 
                 '' => 'site/index',
                 '<_a:[\w\-]+>' => 'site/<_a>',
