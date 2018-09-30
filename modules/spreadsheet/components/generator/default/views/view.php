@@ -13,6 +13,7 @@ echo "<?php\n";
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\components\Rbac;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-view">
 
     <h1><?= "<?= " ?>Html::encode($this->title) ?></h1>
-
+    <?= "<?php " ?> if(Yii::$app->user->can(Rbac::PERMISSION_EDIT_TABLE)) : ?>
     <p>
         <?= "<?= " ?>Html::a(<?= $generator->generateString('Update') ?>, ['update', <?= $urlParams ?>], ['class' => 'btn btn-primary']) ?>
         <?= "<?= " ?>Html::a(<?= $generator->generateString('Delete') ?>, ['delete', <?= $urlParams ?>], [
@@ -37,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <?= "<?php " ?> endif; ?>
 
     <?= "<?= " ?>DetailView::widget([
         'model' => $model,

@@ -6,13 +6,11 @@ use Yii;
 use yii\helpers\Html;
 use modules\spreadsheet\traits\ModuleTrait;
 use app\components\Rbac;
-use yii\base\Model;
 
 /**
  * Class Table
  * @package modules\spreadsheet\models
  *
- * @property array $allTables
  * @property array $itemsToMenu
  */
 class Table

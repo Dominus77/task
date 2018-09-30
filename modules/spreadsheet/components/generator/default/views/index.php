@@ -14,6 +14,7 @@ echo "<?php\n";
 
 use yii\helpers\Html;
 use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
+use app\components\Rbac;
 <?= $generator->enablePjax ? 'use yii\widgets\Pjax;' : '' ?>
 
 /* @var $this yii\web\View */
@@ -32,10 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php if(!empty($generator->searchModelClass)): ?>
 <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php endif; ?>
-
+    <?= "<?php " ?> if(Yii::$app->user->can(Rbac::PERMISSION_EDIT_TABLE)) : ?>
     <p>
         <?= "<?= " ?>Html::a( Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?= "<?php " ?> endif; ?>
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
     <?= "<?= " ?>GridView::widget([
