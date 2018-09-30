@@ -57,52 +57,8 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $model = new Table();
-        $import = new Import();
         return $this->render('index', [
             'model' => $model,
-            'import' => $import,
         ]);
-    }
-
-    /**
-     * Вывод таблицы
-     *
-     * @param $name
-     * @return string
-     */
-    public function actionShow($name)
-    {
-        $model = $this->findModel($name);
-        return $this->render('show', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Данные таблицы
-     *
-     * @param string $name
-     * @param integer $id
-     * @return string
-     */
-    public function actionView($name, $id)
-    {
-        $model = $this->findModel($name);
-        return $this->render('view', [
-            'model' => $model,
-            'data' => $model->getViewModel($id),
-        ]);
-    }
-
-    /**
-     * Модель таблицы
-     *
-     * @param string $name
-     * @return Table
-     */
-    protected function findModel($name)
-    {
-        $model = new Table(['tableName' => $name]);
-        return $model;
     }
 }

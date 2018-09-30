@@ -44,6 +44,70 @@ trait ModuleTrait
     }
 
     /**
+     * Path to folder model
+     *
+     * @return string
+     */
+    public function getModelPath()
+    {
+        return Yii::getAlias('@modules/') . Module::$name . '/models';
+    }
+
+    /**
+     * Namespace model
+     *
+     * @return string
+     */
+    public function getNsModel()
+    {
+        return 'modules\\' . Module::$name . '\models';
+    }
+
+    /**
+     * Path to folder search model
+     *
+     * @return string
+     */
+    public function getSearchModelPath()
+    {
+        return Yii::getAlias('@modules/') . Module::$name . '/models/search';
+    }
+
+    /**
+     * Path to folder controller
+     *
+     * @return string
+     */
+    public function getControllerPath()
+    {
+        return Yii::getAlias('@modules/') . Module::$name . '/controllers';
+    }
+
+    /**
+     * Path to folder view
+     *
+     * @param string $folderName
+     * @return bool|string
+     */
+    public function getViewsPath($folderName)
+    {
+        if ($folderName) {
+            return '@modules/' . Module::$name . '/views/' . $folderName;
+        }
+        return false;
+    }
+
+    /**
+     * Namespace controller
+     *
+     * @return string
+     */
+    public function getNsController()
+    {
+        return 'modules\\' . Module::$name . '\controllers';
+    }
+
+    /**
      * Возвращает файлы из директории с указаным в патерне расширением
      *
      * @return array

@@ -3,12 +3,10 @@
 namespace modules\spreadsheet\models;
 
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use modules\spreadsheet\traits\ModuleTrait;
 use app\components\Rbac;
 use yii\base\Model;
-use yii\db\Query;
 
 /**
  * Class Table
@@ -55,7 +53,7 @@ class Table extends Model
             $count = $this->getCountItemsTable($value);
             if (($count !== false) && $count >= 0) {
                 $items[$key]['label'] = Html::tag('span', $count, ['class' => 'badge pull-right']) . $value;
-                $items[$key]['url'] = ['/spreadsheet/default/show', 'name' => $value];
+                $items[$key]['url'] = ['/spreadsheet/' . $value . '/index'];
                 $items[$key]['visible'] = Yii::$app->user->can(Rbac::PERMISSION_VIEW_TABLE);
             }
         }
@@ -79,65 +77,5 @@ class Table extends Model
             }
         }
         return false;
-    }
-
-    /**
-     * Атрибуты
-     *
-     * @return array
-     */
-    public function getFieldsTable()
-    {
-        $fields = [];
-        if ($this->tableName) {
-            $db = Yii::$app->db;
-            $columns = $db->getTableSchema($this->tableName)->columns;
-            foreach ($columns as $item) {
-                $fields[] = $item->name;
-            }
-        }
-        return $fields;
-    }
-
-    /**
-     * Вывод таблицы
-     *
-     * @return null|ActiveDataProvider
-     */
-    public function getActiveProvider()
-    {
-        if ($this->tableName) {
-            $query = new Query;
-            $query->from($this->tableName);
-            $provider = new ActiveDataProvider([
-                'query' => $query,
-                'pagination' => [
-                    'pageSize' => 5,
-                ],
-                'sort' => [
-                    'attributes' => $this->getFieldsTable(),
-                ],
-            ]);
-            return $provider;
-        }
-        return null;
-    }
-
-    /**
-     * Вывод данных таблицы
-     *
-     * @param integer $id
-     * @return array|bool|null
-     */
-    public function getViewModel($id)
-    {
-        if ($this->tableName) {
-            $query = new Query;
-            $model = $query->from($this->tableName)
-                ->where(['id' => $id])
-                ->one();
-            return $model;
-        }
-        return null;
     }
 }

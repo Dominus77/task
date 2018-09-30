@@ -81,10 +81,41 @@ class Import
                     $db->createCommand()->addPrimaryKey($table_name . '_pk', $table_name, 'id')->execute();
                     $db->createCommand()->alterColumn($table_name, 'id', 'INTEGER NOT NULL AUTO_INCREMENT')->execute();
                 }
-                return true;
+
+                // Генерируем модель
+                if ($this->createModel($table_name) === true) {
+                    // Генерируем GRUD
+                    if ($this->createGrud($table_name) === true) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
+    }
+
+    /**
+     * Генератор модели
+     *
+     * @param string $table_name
+     * @return bool
+     */
+    public function createModel($table_name)
+    {
+        $model = new ProcessModel();
+        return $model->createModel($table_name);
+    }
+
+    /**
+     * Генератор GRUD
+     *
+     * @param string $table_name
+     * @return bool
+     */
+    public function createGrud($table_name)
+    {
+        $model = new ProcessGrud();
+        return $model->createGrud($table_name);
     }
 
     /**
@@ -92,6 +123,7 @@ class Import
      *
      * @param string $table_name
      * @return bool
+     * @throws \yii\base\ErrorException
      * @throws \yii\db\Exception
      */
     public function removeDbTable($table_name = '')
@@ -100,10 +132,39 @@ class Import
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
                 $db->createCommand()->dropTable($table_name)->execute();
+                // Удаляем GRUD
+                $this->removeGrud($table_name);
+                // Удаляем модель
+                $this->removeModel($table_name);
             }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Удаляем модель
+     *
+     * @param string $table_name
+     * @return bool
+     */
+    public function removeModel($table_name)
+    {
+        $model = new ProcessModel();
+        return $model->removeModel($table_name);
+    }
+
+    /**
+     * Удаляем GRUD
+     *
+     * @param string $table_name
+     * @return bool
+     * @throws \yii\base\ErrorException
+     */
+    public function removeGrud($table_name)
+    {
+        $model = new ProcessGrud();
+        return $model->removeGrud($table_name);
     }
 
     /**
