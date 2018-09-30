@@ -4,7 +4,7 @@ namespace modules\spreadsheet\widgets;
 
 use yii\bootstrap\Widget;
 use yii\widgets\Menu;
-use modules\spreadsheet\models\Table;
+use modules\spreadsheet\components\Table;
 
 /**
  * Class MenuWidgets

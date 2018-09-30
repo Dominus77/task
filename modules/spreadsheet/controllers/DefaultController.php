@@ -6,8 +6,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\components\Rbac;
-use modules\spreadsheet\models\Table;
-use modules\spreadsheet\components\Import;
+use modules\spreadsheet\components\Table;
 
 /**
  * Class DefaultController

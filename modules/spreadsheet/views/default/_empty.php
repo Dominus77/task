@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $this yii\web\View
- * @var $model modules\spreadsheet\models\Table
+ * @var $model \modules\spreadsheet\components\Table
  */
 ?>
 <div class="panel panel-default">

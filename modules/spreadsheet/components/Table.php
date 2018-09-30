@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\spreadsheet\models;
+namespace modules\spreadsheet\components;
 
 use Yii;
 use yii\helpers\Html;
@@ -9,8 +9,7 @@ use app\components\Rbac;
 
 /**
  * Class Table
- * @package modules\spreadsheet\models
- *
+ * @package modules\spreadsheet\components
  * @property array $itemsToMenu
  */
 class Table
