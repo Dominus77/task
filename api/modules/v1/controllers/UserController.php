@@ -28,7 +28,7 @@ class UserController extends ActiveController
             'class' => \yii\filters\Cors::class,
         ];
 
-        // header('Authorization: Bearer FFFF70it7tzNsHddEiq0BZ0i-OU8S3xV');
+        // header('Authorization: Bearer 51aGMh6_TJDKC9dpZPBaE23TX5NXruI3');
         $behaviors['authenticator']['class'] = HttpBearerAuth::class;
         $behaviors['authenticator']['only'] = ['update'];
 

@@ -98,6 +98,46 @@ trait ModuleTrait
     }
 
     /**
+     * Path to folder api model
+     *
+     * @return bool|string
+     */
+    public function getApiModelPath()
+    {
+        return Yii::getAlias('@api/modules/v1/models');
+    }
+
+    /**
+     * Namespace model
+     *
+     * @return string
+     */
+    public function getNsApiModel()
+    {
+        return 'api\modules\v1\models';
+    }
+
+    /**
+     * Path to folder api controller
+     *
+     * @return bool|string
+     */
+    public function getApiControllerPath()
+    {
+        return Yii::getAlias('@api/modules/v1/controllers');
+    }
+
+    /**
+     * Namespace controller
+     *
+     * @return string
+     */
+    public function getNsApiController()
+    {
+        return 'api\modules\v1\controllers';
+    }
+
+    /**
      * Namespace controller
      *
      * @return string

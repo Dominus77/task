@@ -14,6 +14,7 @@ $config = [
         '@npm' => '@vendor/npm-asset',
         '@modules' => '@app/modules',
         '@uploads' => '@app/web/uploads',
+        '@api' => '@app/api',
     ],
     'modules' => [
         'spreadsheet' => [

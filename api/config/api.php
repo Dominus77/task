@@ -7,10 +7,14 @@ $config = [
     'id' => 'app-api',
     'language' => 'en',
     'basePath' => dirname(dirname(__DIR__)),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'api\modules\v1\Bootstrap',
+    ],
     'homeUrl' => '/api',
     'aliases' => [
         '@api' => '@app/api',
+        '@modules' => '@app/modules',
     ],
     'modules' => [
         'v1' => [
@@ -46,7 +50,12 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                [
+                /*[
+                    'class' => 'yii\rest\UrlRule',
+                    'pluralize' => false,
+                    'controller' => ['v1/test'],
+                ],*/
+                /*[
                     'class' => 'yii\rest\UrlRule',
                     'controller' => [
                         'v1/user'
@@ -60,7 +69,21 @@ $config = [
                         'v1/message'
                     ],
                     'pluralize' => false,
-                ],
+                ],*/
+                /*[
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => [
+                        'v1/<_c:[\w\-]+>' => '<_c>',
+                    ],
+                    'pluralize' => false,
+                ],*/
+                /*'PUT,PATCH {id}/update' => 'update',
+                'DELETE {id}/delete' => 'delete',
+                'GET,HEAD {id}' => 'view',
+                'POST {id}/create' => 'create',
+                'GET,HEAD' => 'index',
+                '{id}' => 'options',
+                '' => 'options',*/
             ],
         ],
         'cache' => [

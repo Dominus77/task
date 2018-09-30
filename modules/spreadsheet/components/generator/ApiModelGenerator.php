@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Dominus
+ * Date: 30.09.2018
+ * Time: 14:21
+ */
 
 namespace modules\spreadsheet\components\generator;
 
@@ -6,10 +12,10 @@ use Yii;
 use yii\gii\generators\model\Generator;
 
 /**
- * Class ModelGenerator
+ * Class ApiModelGenerator
  * @package modules\spreadsheet\components\generator
  */
-class ModelGenerator extends Generator
+class ApiModelGenerator extends Generator
 {
     /**
      * {@inheritdoc}
@@ -37,7 +43,7 @@ class ModelGenerator extends Generator
             $params['modelClassName'] = $modelClassName;
             $codeFile = new GeneratorCodeFile(
                 Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/' . $modelClassName . '.php',
-                $this->render('model.php', $params)
+                $this->render('api_model.php', $params)
             );
             $codeFile->operation = GeneratorCodeFile::OP_OVERWRITE;
             return $codeFile->save();

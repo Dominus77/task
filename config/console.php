@@ -14,6 +14,7 @@ $config = [
         '@tests' => '@app/tests',
         '@modules' => '@app/modules',
         '@uploads' => '@app/web/uploads',
+        '@api' => '@app/api',
     ],
     'modules' => [
         'spreadsheet' => [

@@ -31,4 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
         </div>
     </div>
+    <?php
+    //$result = $model->getCreateModelApi();
+    //$result = $model->removeModelApi();
+    //$result = $model->getCreateControllerApi();
+    //$result = $model->removeControllerApi();
+    //\yii\helpers\VarDumper::dump($result, 10, 1);
+    ?>
 </div>
