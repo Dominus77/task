@@ -30,11 +30,6 @@ class DefaultController extends Controller
                         'roles' => [Rbac::PERMISSION_ACCESS_TABLE],
                     ],
                     [
-                        'actions' => ['show', 'view'],
-                        'allow' => true,
-                        'roles' => [Rbac::PERMISSION_VIEW_TABLE],
-                    ],
-                    [
                         'allow' => true,
                         'roles' => [Rbac::PERMISSION_EDIT_TABLE],
                     ],
