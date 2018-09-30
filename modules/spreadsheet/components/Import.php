@@ -39,7 +39,7 @@ class Import
             DataType::TYPE_FORMULA => 'TEXT',
             DataType::TYPE_INLINE => 'TEXT',
             DataType::TYPE_NULL => 'TEXT',
-            DataType::TYPE_NUMERIC => 'TEXT',
+            DataType::TYPE_NUMERIC => 'INTEGER',
             DataType::TYPE_STRING => 'TEXT',
             DataType::TYPE_STRING2 => 'TEXT',
         ];

@@ -47,6 +47,7 @@ return [
     'View' => 'Просмотр',
     'Update' => 'Редактировать',
     'Delete' => 'Удалить',
+    'Create' => 'Создать',
 
     'Are you sure you want to delete this item?' => 'Вы уверены что хотите удалить этот элемент?',
 ];
