@@ -20,7 +20,7 @@ class Module extends \yii\base\Module
      * Pagination
      * @var int
      */
-    public static $pageSize = 5;
+    public static $pageSize = 10;
 
     /**
      * @var int the permission to be set for newly generated code files.
