@@ -15,28 +15,9 @@ use yii\base\Model;
  * @property array $allTables
  * @property array $itemsToMenu
  */
-class Table extends Model
+class Table
 {
     use ModuleTrait;
-
-    public $tableName;
-
-    /**
-     * {@inheritdoc}
-     * @return array
-     */
-    public function rules()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [];
-    }
 
     /**
      * Пункты названия таблиц для меню
