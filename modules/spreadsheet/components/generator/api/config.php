@@ -8,11 +8,13 @@ echo "<?php\n";
 
 <?php if(!empty($controllers)) :?>
 return [
+    'class' => 'yii\rest\UrlRule',
+    'controller' => [
 <?php
 foreach ($controllers as $name): ?>
-    <?= "'$name'" . ",\n" ?>
+        <?= "'$name'" . ",\n" ?>
 <?php endforeach; ?>
+    ],
+    'pluralize' => false,
 ];
-<?php else : ?>
-return [];
 <?php endif; ?>
