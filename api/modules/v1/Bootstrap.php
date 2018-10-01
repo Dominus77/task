@@ -3,7 +3,7 @@
 namespace api\modules\v1;
 
 use Yii;
-use modules\spreadsheet\components\ApiConfig as SpreadsheetApiConfig;
+use modules\spreadsheet\components\ApiRules as SpreadsheetApiRules;
 
 /**
  * Class Bootstrap
@@ -45,16 +45,17 @@ class Bootstrap
                 ],
                 'pluralize' => false,
             ],
-            $this->getSpreadsheetConfig(),
+            $this->getSpreadsheetRules(),
         ];
     }
 
     /**
-     * Контроллеры для модуля spreadsheet
+     * Правила API для модуля spreadsheet
+     *
      * @return mixed
      */
-    protected function getSpreadsheetConfig()
+    protected function getSpreadsheetRules()
     {
-        return SpreadsheetApiConfig::getSpreadsheetConfig();
+        return SpreadsheetApiRules::getSpreadsheetRules();
     }
 }

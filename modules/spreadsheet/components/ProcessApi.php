@@ -3,12 +3,11 @@
 namespace modules\spreadsheet\components;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use modules\spreadsheet\traits\ModuleTrait;
 use modules\spreadsheet\components\generator\ApiModelGenerator;
 use modules\spreadsheet\components\generator\ApiControllerGenerator;
-use modules\spreadsheet\components\generator\ApiConfigGenerator;
+use modules\spreadsheet\components\generator\ApiRulesGenerator;
 
 /**
  * Class ProcessApi
@@ -116,7 +115,7 @@ class ProcessApi
     {
         $items = $this->getNamesArray();
         $version = $this->getVersionApi();
-        $generator = new ApiConfigGenerator();
+        $generator = new ApiRulesGenerator();
         $generator->ns = 'modules/spreadsheet/config';
         if ($items) {
             foreach ($items as $item) {

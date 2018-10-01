@@ -6,10 +6,10 @@ use Yii;
 use yii\gii\generators\controller\Generator;
 
 /**
- * Class ApiConfigGenerator
+ * Class ApiRulesGenerator
  * @package modules\spreadsheet\components\generator
  */
-class ApiConfigGenerator extends Generator
+class ApiRulesGenerator extends Generator
 {
     public $ns;
     public $controllersItems;
@@ -25,7 +25,7 @@ class ApiConfigGenerator extends Generator
     public function generate()
     {
         $codeFile = new GeneratorCodeFile(
-            Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/api.php',
+            Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/apiRules.php',
             $this->render('config.php', ['controllers' => $this->controllersItems])
         );
         $codeFile->operation = GeneratorCodeFile::OP_OVERWRITE;
