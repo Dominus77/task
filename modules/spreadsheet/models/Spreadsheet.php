@@ -12,11 +12,18 @@ use yii\base\Model;
 class Spreadsheet extends Model
 {
     /**
+     * @var string
+     */
+    public $tables = 'OK!';
+
+    /**
      * @return array the validation rules.
      */
     public function rules()
     {
-        return [];
+        return [
+            [['tables'], 'safe'],
+        ];
     }
 
     /**
@@ -24,12 +31,16 @@ class Spreadsheet extends Model
      */
     public function attributeLabels()
     {
-        return [];
+        return [
+            'tables' => Yii::t('app', 'Tables'),
+        ];
     }
 
-
+    /**
+     * @return string
+     */
     public function getTables()
     {
-
+        return $this->tables;
     }
 }

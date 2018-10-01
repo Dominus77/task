@@ -36,4 +36,13 @@ class Spreadsheet extends \modules\spreadsheet\models\Spreadsheet
             'tables'
         ];
     }
+
+    /**
+     * /api/v1/message?expand=status
+     * @return array
+     */
+    public function extraFields()
+    {
+        return [];
+    }
 }
