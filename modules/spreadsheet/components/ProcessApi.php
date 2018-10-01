@@ -8,6 +8,7 @@ use modules\spreadsheet\traits\ModuleTrait;
 use modules\spreadsheet\components\generator\ApiModelGenerator;
 use modules\spreadsheet\components\generator\ApiControllerGenerator;
 use modules\spreadsheet\components\generator\ApiRulesGenerator;
+use yii\helpers\VarDumper;
 
 /**
  * Class ProcessApi
@@ -111,15 +112,16 @@ class ProcessApi
      *
      * @return bool
      */
-    protected function setApiConfig()
+    public function setApiConfig()
     {
         $items = $this->getNamesArray();
         $version = $this->getVersionApi();
         $generator = new ApiRulesGenerator();
         $generator->ns = 'modules/spreadsheet/config';
+        $generator->controllersItems[$version . '/' . $this->getModule()->id] = $version . '/' . $this->getModule()->id;
         if ($items) {
             foreach ($items as $item) {
-                $generator->controllersItems[] = $version . '/' . $item;
+                $generator->controllersItems[$version . '/' . $this->getModule()->id . '/' . $item] = $version . '/' . $item;
             }
         }
         return $generator->generate();

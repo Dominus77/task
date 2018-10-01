@@ -11,8 +11,8 @@ return [
     'class' => 'yii\rest\UrlRule',
     'controller' => [
 <?php
-foreach ($controllers as $name): ?>
-        <?= "'$name'" . ",\n" ?>
+foreach ($controllers as $key => $name): ?>
+        <?= "'$key' => '$name',\n" ?>
 <?php endforeach; ?>
     ],
     'pluralize' => false,

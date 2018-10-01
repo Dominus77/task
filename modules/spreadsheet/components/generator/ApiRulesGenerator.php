@@ -12,7 +12,7 @@ use yii\gii\generators\controller\Generator;
 class ApiRulesGenerator extends Generator
 {
     public $ns;
-    public $controllersItems;
+    public $controllersItems = [];
 
     public $template = 'api';
     public $templates = [
@@ -26,7 +26,7 @@ class ApiRulesGenerator extends Generator
     {
         $codeFile = new GeneratorCodeFile(
             Yii::getAlias('@' . str_replace('\\', '/', $this->ns)) . '/apiRules.php',
-            $this->render('config.php', ['controllers' => $this->controllersItems])
+            $this->render('rules.php', ['controllers' => $this->controllersItems])
         );
         $codeFile->operation = GeneratorCodeFile::OP_OVERWRITE;
         return $codeFile->save();

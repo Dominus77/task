@@ -77,7 +77,9 @@ AppAsset::register($this);
                 [
                     'label' => '<i class="glyphicon glyphicon-log-out"></i> ' . Yii::t('app', 'Logout'),
                     'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                    'linkOptions' => [
+                        'data-method' => 'POST'
+                    ],
                 ],
             ],
         ];
