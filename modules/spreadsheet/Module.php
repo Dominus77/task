@@ -18,9 +18,17 @@ class Module extends \yii\base\Module
 
     /**
      * Pagination
+     *
      * @var int
      */
     public static $pageSize = 10;
+
+    /**
+     * Search file pattern
+     *
+     * @var string
+     */
+    public $pattern = '*.xls';
 
     /**
      * Version Api

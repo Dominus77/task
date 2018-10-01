@@ -15,8 +15,6 @@ use modules\spreadsheet\Module;
  */
 trait ModuleTrait
 {
-    public $pattern = '*.xls';
-
     /**
      * @return null|\yii\base\Module
      */
@@ -170,6 +168,18 @@ trait ModuleTrait
     }
 
     /**
+     * Pattern search file
+     *
+     * @return mixed
+     */
+    public function getPattern()
+    {
+        /** @var \modules\spreadsheet\Module $module */
+        $module = $this->getModule();
+        return $module->pattern;
+    }
+
+    /**
      * Возвращает файлы из директории с указаным в патерне расширением
      *
      * @return array
@@ -177,7 +187,7 @@ trait ModuleTrait
     public function getFiles()
     {
         return FileHelper::findFiles($this->getUploadPath(), [
-            'only' => [$this->pattern],
+            'only' => [$this->getPattern()],
         ]);
     }
 
@@ -193,7 +203,11 @@ trait ModuleTrait
         foreach ($files as $file) {
             if (file_exists($file)) {
                 $info = pathinfo($file);
-                $names[$file] = ArrayHelper::getValue($info, 'filename');
+                $name = ArrayHelper::getValue($info, 'filename');
+                // Игнорируем файл с именем равным названию модуля
+                if ($name !== Module::$name) {
+                    $names[$file] = $name;
+                }
             }
         }
         return $names;
