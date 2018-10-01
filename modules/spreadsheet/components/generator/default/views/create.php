@@ -17,7 +17,7 @@ use yii\helpers\Html;
 
 $this->title = <?= $generator->generateString('Create') ?>;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tables'), 'url' => ['/spreadsheet/default/index']];
-$this->params['breadcrumbs'][] = ['label' => <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>, 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => <?= $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-create">

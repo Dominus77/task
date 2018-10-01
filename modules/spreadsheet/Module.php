@@ -23,6 +23,13 @@ class Module extends \yii\base\Module
     public static $pageSize = 10;
 
     /**
+     * Version Api
+     *
+     * @var string
+     */
+    public $versionApi = 'v1';
+
+    /**
      * @var int the permission to be set for newly generated code files.
      * This value will be used by PHP chmod function.
      * Defaults to 0666, meaning the file is read-writable by all users.

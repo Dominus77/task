@@ -98,6 +98,18 @@ trait ModuleTrait
     }
 
     /**
+     * Version API
+     *
+     * @return string
+     */
+    public function getVersionApi()
+    {
+        /** @var \modules\spreadsheet\Module $module */
+        $module = $this->getModule();
+        return $module->versionApi;
+    }
+
+    /**
      * Path to folder api model
      *
      * @return bool|string
@@ -135,6 +147,16 @@ trait ModuleTrait
     public function getNsApiController()
     {
         return 'api\modules\v1\controllers';
+    }
+
+    /**
+     * Path to folder api controller
+     *
+     * @return bool|string
+     */
+    public function getApiConfigPath()
+    {
+        return Yii::getAlias('@modules/' . Module::$name . '/config');
     }
 
     /**

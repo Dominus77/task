@@ -67,6 +67,8 @@ $config = [
                 'spreadsheet/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => 'spreadsheet/<_c>/<_a>',
                 'spreadsheet/<_c:[\w\-]+>/<_a:[\w\-]+>' => 'spreadsheet/<_c>/<_a>',
 
+                'profile' => 'profile/index',
+
                 '' => 'site/index',
                 '<_a:[\w\-]+>' => 'site/<_a>',
             ],

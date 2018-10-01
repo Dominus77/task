@@ -37,42 +37,61 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            [
-                'label' => Yii::t('app', 'Home'),
-                'url' => ['/site/index']
-            ],
-            [
-                'label' => Yii::t('app', 'About'),
-                'url' => ['/site/about']
-            ],
-            [
-                'label' => Yii::t('app', 'Contact'),
-                'url' => ['/site/contact']
-            ],
-            [
-                'label' => Yii::t('app', 'Tables'),
-                'url' => ['/spreadsheet/default/index'],
-                'visible' => Yii::$app->user->can(Rbac::PERMISSION_ACCESS_TABLE)
-            ],
-            Yii::$app->user->isGuest ? (
-            ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    Yii::t('app', 'Logout ({:username})', [
-                        ':username' => Yii::$app->user->identity->username
-                    ]),
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+
+    $menuItems = [
+        [
+            'label' => Yii::t('app', 'Home'),
+            'url' => ['/site/index']
         ],
+        [
+            'label' => Yii::t('app', 'About'),
+            'url' => ['/site/about']
+        ],
+        [
+            'label' => Yii::t('app', 'Contact'),
+            'url' => ['/site/contact']
+        ],
+        [
+            'label' => Yii::t('app', 'Tables'),
+            'url' => ['/spreadsheet/default/index'],
+            'visible' => Yii::$app->user->can(Rbac::PERMISSION_ACCESS_TABLE)
+        ],
+    ];
+
+    if (Yii::$app->user->isGuest) {
+        $menuItems[] = [
+            'label' => Yii::t('app', 'Login'),
+            'url' => ['/site/login'],
+            'visible' => Yii::$app->user->isGuest
+        ];
+    } else {
+        /** @var app\models\User $identity */
+        $identity = Yii::$app->user->identity;
+        $menuItems[] = [
+            'label' => Yii::t('app', 'Menu ({:username})', [':username' => $identity->username]),
+            'items' => [
+                [
+                    'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Profile'),
+                    'url' => ['/profile/index']
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-log-out"></i> ' . Yii::t('app', 'Logout'),
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']
+                ],
+            ],
+        ];
+    }
+
+    echo Nav::widget([
+        'options' => [
+            'class' => 'navbar-nav navbar-right'
+        ],
+        'activateParents' => true,
+        'encodeLabels' => false,
+        'items' => array_filter($menuItems),
     ]);
+
     NavBar::end();
     ?>
 

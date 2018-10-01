@@ -8,6 +8,7 @@ return [
     'Created' => 'Создано',
     'Updated' => 'Изменено',
     'Password' => 'Пароль',
+    'Not assigned' => 'Не присвоено',
 
     'This username is already taken.' => 'Это имя пользователя уже используется.',
     'More than {:number} symbols' => 'Более {:number} символов',
@@ -27,7 +28,9 @@ return [
     'It is allowed to use the Latin alphabet, dashes and underscores.' => 'Разрешено использовать латиницу, знаки тире и подчеркивания.',
     'Incorrect username or password.' => 'Не верные логин или пароль',
 
-    'Logout ({:username})' => 'Выход ({:username})',
+    'Menu ({:username})' => 'Меню ({:username})',
+    'Profile' => 'Профиль',
+    'Logout' => 'Выход',
 
     'Sign Up' => 'Регистрация',
     'Please fill in the following fields to sign up' => 'Пожалуйста, заполните следующие поля для регистрации',
@@ -48,6 +51,12 @@ return [
     'Update' => 'Редактировать',
     'Delete' => 'Удалить',
     'Create' => 'Создать',
+    'Generate' => 'Генерировать',
+    'Generate new key' => 'Генерировать новый ключ',
 
     'Are you sure you want to delete this item?' => 'Вы уверены что хотите удалить этот элемент?',
+    'The requested page does not exist.' => 'Запрошенная страница не существует.',
+
+    'User' => 'Пользователь',
+    'Admin' => 'Администратор',
 ];

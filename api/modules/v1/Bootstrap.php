@@ -3,6 +3,7 @@
 namespace api\modules\v1;
 
 use Yii;
+use modules\spreadsheet\components\ApiControllers;
 
 /**
  * Class Bootstrap
@@ -10,6 +11,9 @@ use Yii;
  */
 class Bootstrap
 {
+    /**
+     * Bootstrap constructor.
+     */
     public function __construct()
     {
         $urlManager = Yii::$app->urlManager;
@@ -19,7 +23,8 @@ class Bootstrap
     }
 
     /**
-     * Group rules backend
+     * Rules API
+     *
      * @return array
      */
     protected function rulesApi()
@@ -42,12 +47,18 @@ class Bootstrap
             ],
             [
                 'class' => 'yii\rest\UrlRule',
+                'controller' => $this->getSpreadsheetControllers(),
                 'pluralize' => false,
-                'prefix' => 'v1',
-                'controller' => [
-                    'test' => 'v1/test',
-                ],
             ],
         ];
+    }
+
+    /**
+     * Контроллеры для модуля spreadsheet
+     * @return mixed
+     */
+    protected function getSpreadsheetControllers()
+    {
+        return ApiControllers::getControllers();
     }
 }

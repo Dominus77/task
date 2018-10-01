@@ -8,6 +8,7 @@ return [
     'Created' => 'Created',
     'Updated' => 'Updated',
     'Password' => 'Password',
+    'Not assigned' => 'Не присвоено',
 
     'This username is already taken.' => 'This username is already taken.',
     'More than {:number} symbols' => 'More than {:number} symbols',
@@ -27,7 +28,9 @@ return [
     'It is allowed to use the Latin alphabet, dashes and underscores.' => 'It is allowed to use the Latin alphabet, dashes and underscores.',
     'Incorrect username or password.' => 'Incorrect username or password.',
 
-    'Logout ({:username})' => 'Logout ({:username})',
+    'Menu ({:username})' => 'Menu ({:username})',
+    'Profile' => 'Profile',
+    'Logout' => 'Logout',
 
     'Sign Up' => 'Sign Up',
     'Please fill in the following fields to sign up' => 'Please fill in the following fields to sign up',
@@ -48,6 +51,12 @@ return [
     'Update' => 'Update',
     'Delete' => 'Delete',
     'Create' => 'Create',
+    'Generate' => 'Generate',
+    'Generate new key' => 'Generate new key',
 
     'Are you sure you want to delete this item?' => 'Are you sure you want to delete this item?',
+    'The requested page does not exist.' => 'The requested page does not exist.',
+
+    'User' => 'User',
+    'Admin' => 'Administrator',
 ];

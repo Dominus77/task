@@ -6,9 +6,6 @@ use Yii;
 use yii\helpers\Html;
 use modules\spreadsheet\traits\ModuleTrait;
 use app\components\Rbac;
-use modules\spreadsheet\components\generator\ApiModelGenerator;
-use modules\spreadsheet\components\generator\ApiControllerGenerator;
-use yii\helpers\FileHelper;
 
 /**
  * Class Table
@@ -57,48 +54,6 @@ class Table
                 return $result;
             }
         }
-        return false;
-    }
-
-
-    public function getCreateModelApi()
-    {
-        $tableName = 'test';
-        $generator = new ApiModelGenerator();
-        $generator->tableName = $tableName;
-        $generator->modelClass = ucfirst($tableName);
-        $generator->ns = $this->getNsApiModel();
-        $generator->generate();
-        return true;
-    }
-
-    public function removeModelApi()
-    {
-        $tableName = 'test';
-        $path = $this->getApiModelPath() . '/' . ucfirst($tableName) . '.php';
-        FileHelper::unlink($path);
-        if (!file_exists($path))
-            return true;
-        return false;
-    }
-
-    public function getCreateControllerApi()
-    {
-        $tableName = 'test';
-        $generator = new ApiControllerGenerator();
-        $generator->modelClass = ucfirst($tableName);
-        $generator->controllerClass = $this->getNsApiController().'\\'.ucfirst($tableName).'Controller';
-        $generator->generate();
-        return true;
-    }
-
-    public function removeControllerApi()
-    {
-        $tableName = 'test';
-        $path = $this->getApiControllerPath() . '/' . ucfirst($tableName) . 'Controller.php';
-        FileHelper::unlink($path);
-        if (!file_exists($path))
-            return true;
         return false;
     }
 }

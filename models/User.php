@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -17,6 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $updated_at Updated
  * @property string $authKey
  * @property string $password
+ * @property string $role
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -66,6 +68,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'auth_key' => Yii::t('app', 'Authorization Key'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
+            'role' => Yii::t('app', 'Role'),
         ];
     }
 
@@ -150,5 +153,31 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    /**
+     * Присвоенная роль
+     */
+    public function getRole()
+    {
+        return ($role = $this->getUserRoleValue($this->id)) ? Yii::t('app', $role->description) : Yii::t('app', 'Not assigned');
+    }
+
+    /**
+     * @param string|int $user_id
+     * @return mixed|null
+     */
+    public function getUserRoleValue($user_id)
+    {
+        $authManager = Yii::$app->authManager;
+        if ($role = $authManager->getRolesByUser($user_id)) {
+            return ArrayHelper::getValue($role, function ($role) {
+                foreach ($role as $key => $value) {
+                    return $value;
+                }
+                return null;
+            });
+        }
+        return null;
     }
 }

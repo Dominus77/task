@@ -69,6 +69,7 @@ class ImportController extends Controller
     /**
      * Remove select table
      *
+     * @throws \yii\base\ErrorException
      * @throws \yii\db\Exception
      */
     public function actionRemoveTable()
