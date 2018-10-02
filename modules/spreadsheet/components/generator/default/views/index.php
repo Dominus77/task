@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= "<?= " ?>\modules\spreadsheet\widgets\PageSize::widget([
                     'label' => '',
                     'defaultPageSize' => Module::$pageSize,
-                    'sizes' => [10 => 10, 15 => 15, 20 => 20, 25 => 25, 50 => 50, 100 => 100, 200 => 200],
+                    'sizes' => [10 => 10, 15 => 15, 20 => 20, 25 => 25, 50 => 50, 100 => 100, 200 => 200, 500 => 500],
                     'options' => [
                         'class' => 'form-control',
                     ],
