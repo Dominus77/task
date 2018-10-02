@@ -1,6 +1,6 @@
 # Yii2 Spreadsheet
 
-Модуль Yii2 Spreadsheet. Импорт данных из файлов *.xls в базу данных
+Модуль Yii2 Spreadsheet. Импорт данных из файлов *.xls в базу данных, с поддержкой консольных команд, RESTful API и RBAC
 
 Файлы *.xls находятся в папке `app/web/uploads/spreadsheet`
 
