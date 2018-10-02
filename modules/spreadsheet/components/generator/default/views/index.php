@@ -15,6 +15,7 @@ echo "<?php\n";
 use yii\helpers\Html;
 use <?= $generator->indexWidgetType === 'grid' ? "yii\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
 use app\components\Rbac;
+use modules\spreadsheet\Module;
 <?= $generator->enablePjax ? 'use yii\widgets\Pjax;' : '' ?>
 
 /* @var $this yii\web\View */
@@ -36,18 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <?= "<?= " ?> \modules\spreadsheet\widgets\PageSize::widget([
+                <?= "<?= " ?>\modules\spreadsheet\widgets\PageSize::widget([
                     'label' => '',
-                    'defaultPageSize' => 25,
+                    'defaultPageSize' => Module::$pageSize,
                     'sizes' => [10 => 10, 15 => 15, 20 => 20, 25 => 25, 50 => 50, 100 => 100, 200 => 200],
                     'options' => [
                         'class' => 'form-control',
                     ],
                 ]) ?>
             </div>
-        <?= "<?php " ?> if(Yii::$app->user->can(Rbac::PERMISSION_EDIT_TABLE)) : ?>
-                <?= "<?= " ?>Html::a( Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success pull-right']) ?>
-        <?= "<?php " ?> endif; ?>
+            <?= "<?php " ?>if (Yii::$app->user->can(Rbac::PERMISSION_EDIT_TABLE)) : ?>
+                <?= "<?= " ?>Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success pull-right']) ?>
+            <?= "<?php " ?>endif; ?>
         </div>
     </div>
 

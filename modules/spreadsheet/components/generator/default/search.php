@@ -70,6 +70,9 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => !empty($params['per-page']) ? $params['per-page'] : Module::$pageSize,
+            ],
         ]);
 
         $this->load($params);

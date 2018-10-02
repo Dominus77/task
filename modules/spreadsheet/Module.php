@@ -24,6 +24,13 @@ class Module extends \yii\base\Module
     public static $pattern = '*.xls';
 
     /**
+     * Pages
+     *
+     * @var int
+     */
+    public static $pageSize = 25;
+
+    /**
      * Version Api
      *
      * @var string
