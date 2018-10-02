@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            'password_hash',
+            'role',
             [
                 'attribute' => 'auth_key',
                 'format' => 'raw',
@@ -45,7 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $key . ' ' . $link;
                 }
             ],
-            'role',
             'created_at:datetime',
             'updated_at:datetime',
         ],
