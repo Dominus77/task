@@ -33,17 +33,30 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php if(!empty($generator->searchModelClass)): ?>
 <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php endif; ?>
-    <?= "<?php " ?> if(Yii::$app->user->can(Rbac::PERMISSION_EDIT_TABLE)) : ?>
-    <p>
-        <?= "<?= " ?>Html::a( Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= "<?php " ?> endif; ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-left">
+                <?= "<?= " ?> \modules\spreadsheet\widgets\PageSize::widget([
+                    'label' => '',
+                    'defaultPageSize' => 25,
+                    'sizes' => [10 => 10, 15 => 15, 20 => 20, 25 => 25, 50 => 50, 100 => 100, 200 => 200],
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ]) ?>
+            </div>
+        <?= "<?php " ?> if(Yii::$app->user->can(Rbac::PERMISSION_EDIT_TABLE)) : ?>
+                <?= "<?= " ?>Html::a( Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success pull-right']) ?>
+        <?= "<?php " ?> endif; ?>
+        </div>
+    </div>
 
 <?php if ($generator->indexWidgetType === 'grid'): ?>
     <?= "<?= " ?>GridView::widget([
         'tableOptions' => [
             'class' => 'table table-bordered table-hover',
         ],
+        'filterSelector' => 'select[name="per-page"]',
         'dataProvider' => $dataProvider,
         <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
             ['class' => 'yii\grid\SerialColumn'],
