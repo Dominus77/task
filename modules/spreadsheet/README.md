@@ -37,5 +37,5 @@ GET http://you_domain_name/api/v1/spreadsheet/test?page=2 - Вторая стр�
 GET http://you_domain_name/api/v1/spreadsheet/test/2 - Получение данных из таблицы test по id
 
 // Авторизованные по Bearer токену пользователи, с разрешением RBAC на редактирование
-PUT http://you_domain_name/api/v1/spreadsheet/test/3 - Редактирование данных с id 2 таблицы test
+PUT http://you_domain_name/api/v1/spreadsheet/test/3 - Редактирование данных с id 3 таблицы test
 ```
