@@ -28,7 +28,7 @@ class Module extends \yii\base\Module
      *
      * @var string
      */
-    public $pattern = '*.xls';
+    public static $pattern = '*.xls';
 
     /**
      * Version Api

@@ -60,7 +60,7 @@ class SpreadsheetController extends Controller
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function actionIndex()
     {

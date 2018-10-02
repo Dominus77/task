@@ -4,6 +4,7 @@ namespace api\modules\v1\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use modules\spreadsheet\traits\ModuleTrait;
 
 /**
  * Class Spreadsheet
@@ -11,6 +12,8 @@ use yii\helpers\ArrayHelper;
  */
 class Spreadsheet extends \modules\spreadsheet\models\Spreadsheet
 {
+    //use ModuleTrait;
+
     /**
      * {@inheritdoc}
      */

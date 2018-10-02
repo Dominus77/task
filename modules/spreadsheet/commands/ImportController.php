@@ -4,15 +4,16 @@ namespace modules\spreadsheet\commands;
 
 use Yii;
 use yii\console\Controller;
-use yii\console\Exception;
 use app\components\helpers\Console;
 use modules\spreadsheet\components\Import;
 use modules\spreadsheet\traits\ModuleTrait;
+use modules\spreadsheet\models\Spreadsheet;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class ImportController
  * @package modules\spreadsheet\commands
+ * @property array $tablesNames
  */
 class ImportController extends Controller
 {
@@ -32,6 +33,7 @@ class ImportController extends Controller
         echo 'yii spreadsheet/import/remove-table' . PHP_EOL;
         echo 'yii spreadsheet/import/load-data' . PHP_EOL;
         echo 'yii spreadsheet/import/clear-data' . PHP_EOL;
+        echo 'yii spreadsheet/import/show-tables-names' . PHP_EOL;
     }
 
     /**
@@ -40,6 +42,31 @@ class ImportController extends Controller
     public function actionShowFilesNames()
     {
         $this->stderr(Console::convertEncoding(implode(PHP_EOL, $this->getFilesNames())), Console::FG_GREEN, Console::BOLD);
+    }
+
+    /**
+     * Show names Tables
+     */
+    public function actionShowTablesNames()
+    {
+        $this->stderr(Console::convertEncoding(implode(PHP_EOL, $this->getTablesNames())), Console::FG_GREEN, Console::BOLD);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTablesNames()
+    {
+        $model = new Spreadsheet();
+        $tables = $model->getTablesNames();
+        $files = $this->getFilesNames();
+        $tableName = ArrayHelper::getColumn($tables, 'tableName');
+        $result = [];
+        foreach ($tableName as $value) {
+            $key = ArrayHelper::getValue(array_flip($files), $value);
+            $result[$key] = $value;
+        }
+        return $result;
     }
 
     /**
@@ -74,13 +101,15 @@ class ImportController extends Controller
      */
     public function actionRemoveTable()
     {
-        $names = array_flip($this->getFilesNames());
+        $names = array_flip($this->getTablesNames());
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
             $model = new Import();
             $model->removeDbTable($name);
+            $this->log(true);
+        } else {
+            $this->log(false);
         }
-        $this->log(true);
     }
 
     /**
@@ -93,7 +122,7 @@ class ImportController extends Controller
     public function actionLoadData()
     {
         $result = false;
-        $names = array_flip($this->getFilesNames());
+        $names = array_flip($this->getTablesNames());
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
             $file = ArrayHelper::getValue($names, $name);

@@ -15,6 +15,7 @@ $config = [
     'aliases' => [
         '@api' => '@app/api',
         '@modules' => '@app/modules',
+        '@uploads' => '@app/web/uploads',
     ],
     'modules' => [
         'v1' => [

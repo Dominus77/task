@@ -174,9 +174,7 @@ trait ModuleTrait
      */
     public function getPattern()
     {
-        /** @var \modules\spreadsheet\Module $module */
-        $module = $this->getModule();
-        return $module->pattern;
+        return Module::$pattern;
     }
 
     /**

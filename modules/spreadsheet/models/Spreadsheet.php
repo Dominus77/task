@@ -4,26 +4,26 @@ namespace modules\spreadsheet\models;
 
 use Yii;
 use yii\base\Model;
+use yii\data\ArrayDataProvider;
+use modules\spreadsheet\traits\ModuleTrait;
 
 /**
  * Class Spreadsheet
  * @package modules\spreadsheet\models
+ * @property array $tablesNames
  */
 class Spreadsheet extends Model
 {
-    /**
-     * @var string
-     */
-    public $tables = 'OK!';
+    use ModuleTrait;
+
+    public $tables;
 
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
-        return [
-            [['tables'], 'safe'],
-        ];
+        return [];
     }
 
     /**
@@ -31,16 +31,41 @@ class Spreadsheet extends Model
      */
     public function attributeLabels()
     {
-        return [
-            'tables' => Yii::t('app', 'Tables'),
-        ];
+        return [];
     }
 
     /**
-     * @return string
+     * Вывод название таблиц с пагинацией
+     *
+     * @return array
      */
     public function getTables()
     {
-        return $this->tables;
+        $tables = $this->getTablesNames();
+        $provider = new ArrayDataProvider([
+            'allModels' => $tables,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $provider->getModels();
+    }
+
+    /**
+     * Имена созданных таблиц
+     *
+     * @return array
+     */
+    public function getTablesNames()
+    {
+        $files = $this->getFilesNames();
+        $tables = [];
+        $db = Yii::$app->db;
+        foreach ($files as $file => $name) {
+            if ($db->getTableSchema($name, true) !== null) {
+                $tables[]['tableName'] = $name;
+            }
+        }
+        return $tables;
     }
 }
