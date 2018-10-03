@@ -12,7 +12,7 @@ spreadsheet/import/index (default)      Команды
 spreadsheet/import/load-data            Загрузить данные в таблицу
 spreadsheet/import/remove-table         Удалить таблицу
 spreadsheet/import/show-files-names     Показать имена файлов
-spreadsheet/import/show-tables-names    Показать имена созданых таблиц
+spreadsheet/import/show-tables-names    Показать имена созданных таблиц
 
 ```
 
