@@ -89,8 +89,10 @@ class UserController extends ActiveController
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->bodyParams, '') && $model->validate()) {
-            if ($model->signup()) {
-                return ['status' => true, 'result' => Yii::t('app', 'Thank you for registering.')];
+            if ($user = $model->signup()) {
+                return ['status' => true, 'result' => Yii::t('app', 'Thank you for registering. Your authorization key: {:key}', [
+                    ':key' => $user->auth_key,
+                ])];
             }
         }
         return ['status' => false, 'result' => $model->getErrors()];

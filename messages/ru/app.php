@@ -35,6 +35,7 @@ return [
     'Sign Up' => 'Регистрация',
     'Please fill in the following fields to sign up' => 'Пожалуйста, заполните следующие поля для регистрации',
     'Thank you for registering.' => 'Спасибо за регистрацию.',
+    'Thank you for registering. Your authorization key: {:key}' => 'Спасибо за регистрацию. Ваш ключ авторизации: {:key}',
 
     'Role' => 'Роль',
     'All Roles' => 'Все роли',
