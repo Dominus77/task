@@ -65,13 +65,18 @@ http://you_domain_name/spreadsheet
 ```
 Файлы *.xls находятся в папке `app/web/uploads/spreadsheet`
 
+[Подробнее о модуле Spreadsheet](https://github.com/Dominus77/task/blob/master/modules/spreadsheet/README.md)
+
 RESTful API
 
 ```
-http://you_domain_name/api/v1/message
-http://you_domain_name/api/v1/users
-http://you_domain_name/api/v1/users/1
-http://you_domain_name/api/v1/users/1?expand=created_at
+GET http://you_domain_name/api/v1/message
+GET http://you_domain_name/api/v1/users
+GET http://you_domain_name/api/v1/users/1
+GET http://you_domain_name/api/v1/users/1?expand=created_at
+POST http://you_domain_name/api/v1/users/signup
+GET http://you_domain_name/api/v1/users/profile
+GET http://you_domain_name/api/v1/users/profile?expand=aut_key
 ```
 
 ## Тесты

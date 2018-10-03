@@ -1,6 +1,6 @@
 # Yii2 Spreadsheet
 
-Модуль Yii2 Spreadsheet. Импорт данных из файлов *.xls в базу данных, с поддержкой консольных команд, RESTful API и RBAC
+Демо модуль Yii2 Spreadsheet. Импорт данных из файлов *.xls в базу данных, с автоматической генерацией моделей и GRUD, поддержкой консольных команд, RESTful API, и RBAC
 
 Файлы *.xls находятся в папке `app/web/uploads/spreadsheet`
 
@@ -19,7 +19,8 @@ spreadsheet/import/show-tables-names    Показать имена создан
 ### RESTful API
 Доступ к API модуля по Bearer токену. Доступ к действиям по RBAC.
  
-Ключ авторизации можно получить авторизовавшись на сайте, в разделе Профиль.
+Ключ авторизации можно получить авторизовавшись на сайте, в разделе Профиль. Так же доступна регистрация по api `POST http://you_domain_name/api/v1/users/signup`.
+Узнать токен по api: `GET http://you_domain_name/api/v1/users/profile?expand=aut_key`
 
 Авторизация: В заголовке запроса установить значение Authorization: Bearer <ваш_ключ>
 ```
