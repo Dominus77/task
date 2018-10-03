@@ -1,5 +1,17 @@
 <?php
 return [
+    'viewUser' => [
+        'type' => 2,
+        'description' => 'View User',
+    ],
+    'updateUser' => [
+        'type' => 2,
+        'description' => 'Update User',
+    ],
+    'deleteUser' => [
+        'type' => 2,
+        'description' => 'Delete User',
+    ],
     'accessTable' => [
         'type' => 2,
         'description' => 'Access Table',
@@ -24,6 +36,9 @@ return [
         'type' => 1,
         'description' => 'Admin',
         'children' => [
+            'viewUser',
+            'updateUser',
+            'deleteUser',
             'accessTable',
             'viewTable',
             'editTable',

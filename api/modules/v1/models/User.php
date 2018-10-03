@@ -33,7 +33,10 @@ class User extends \app\models\User
      */
     public function fields()
     {
-        return ['id', 'username'];
+        return [
+            'id',
+            'username'
+        ];
     }
 
     /**
@@ -42,6 +45,11 @@ class User extends \app\models\User
      */
     public function extraFields()
     {
-        return ['created_at', 'updated_at'];
+        return [
+            'created_at',
+            'updated_at',
+            'auth_key',
+            'role'
+        ];
     }
 }

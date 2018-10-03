@@ -33,10 +33,14 @@ class Bootstrap
             [
                 'class' => 'yii\rest\UrlRule',
                 'controller' => [
-                    'v1/user'
+                    'v1/user',
                 ],
                 'except' => ['delete'],
                 'pluralize' => true,
+                'extraPatterns' => [
+                    'POST signup' => 'signup',
+                    'GET profile' => 'profile',
+                ],
             ],
             [
                 'class' => 'yii\rest\UrlRule',
