@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= "<?= " ?>Html::encode($this->title) ?></h1>
 
-<?= $generator->enablePjax ? "    <?php Pjax::begin(); ?>\n" : '' ?>
+<?= $generator->enablePjax ? "    <?php Pjax::begin(['enablePushState' => false]); ?>\n" : '' ?>
 <?php if(!empty($generator->searchModelClass)): ?>
 <?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php endif; ?>

@@ -25,6 +25,7 @@ class ProcessGrud
     {
         $modelName = ucfirst($tableName);
         $model = new GrudGenerator();
+        $model->enablePjax = true;
         $model->modelClass = $this->getNsModel() . '\\' . $modelName;
         $model->searchModelClass = $this->getNsModel() . '\\search\\' . $modelName . 'Search';
         $model->controllerClass = $this->getNsController() . '\\' . $modelName . 'Controller';
