@@ -27,7 +27,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-
+<?= app\widgets\LoginFormWidget::widget() ?>
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -59,10 +59,17 @@ AppAsset::register($this);
     ];
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = [
+        /*$menuItems[] = [
             'label' => Yii::t('app', 'Login'),
             'url' => ['/site/login'],
             'visible' => Yii::$app->user->isGuest
+        ];*/
+        $menuItems[] = ['label' => Yii::t('app', 'Login'),'url' => '#','options' => [
+            'data' => [
+                'toggle' => 'modal',
+                'target' => '#login-modal',
+            ],
+        ]
         ];
     } else {
         /** @var app\models\User $identity */

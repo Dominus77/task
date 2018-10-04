@@ -27,7 +27,7 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'signup'],
+                        'actions' => ['login', 'signup', 'ajax-login', 'ajax-signup'],
                         'allow' => true,
                     ],
                     [
@@ -43,6 +43,48 @@ class SiteController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * @return array|Response
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionAjaxLogin()
+    {
+        if (Yii::$app->request->isAjax) {
+            $model = new \app\models\LoginForm();
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->login()) {
+                    return $this->goBack();
+                } else {
+                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return \yii\widgets\ActiveForm::validate($model);
+                }
+            }
+        }
+        throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    /**
+     * @return array|Response
+     * @throws \yii\base\Exception
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionAjaxSignup()
+    {
+        if (Yii::$app->request->isAjax) {
+            $model = new \app\models\SignupForm();
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->signup()) {
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for registering.'));
+                    return $this->goBack();
+                } else {
+                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return \yii\widgets\ActiveForm::validate($model);
+                }
+            }
+        }
+        throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
     /**
