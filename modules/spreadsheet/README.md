@@ -19,8 +19,7 @@ spreadsheet/import/show-tables-names    Показать имена создан
 ### RESTful API
 Доступ к API модуля по Bearer токену. Доступ к действиям по RBAC.
  
-Ключ авторизации можно получить авторизовавшись на сайте, в разделе Профиль. Так же доступна регистрация по api `POST http://you_domain_name/api/v1/users/signup`.
-Узнать токен по api: `GET http://you_domain_name/api/v1/users/profile?expand=aut_key`
+Ключ авторизации можно получить авторизовавшись на сайте, в разделе Профиль.
 
 Авторизация: В заголовке запроса установить значение Authorization: Bearer <ваш_ключ>
 ```
