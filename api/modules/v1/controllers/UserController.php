@@ -36,7 +36,7 @@ class UserController extends ActiveController
         // header('Authorization: Bearer 51aGMh6_TJDKC9dpZPBaE23TX5NXruI3');
         $behaviors['authenticator']['class'] = HttpBearerAuth::class;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options'];
+        $behaviors['authenticator']['except'] = ['options', 'signup'];
 
         return $behaviors;
     }
