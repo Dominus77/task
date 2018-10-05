@@ -7,9 +7,14 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use yii\base\InvalidArgumentException;
+use yii\web\BadRequestHttpException;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignupForm;
+use app\models\ResetPasswordForm;
+use app\models\EmailConfirmForm;
+use app\models\PasswordResetRequestForm;
 
 /**
  * Class SiteController
@@ -27,7 +32,15 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'signup', 'ajax-login', 'ajax-signup'],
+                        'actions' => [
+                            'login',
+                            'signup',
+                            'ajax-login',
+                            'ajax-signup',
+                            'email-confirm',
+                            'reset-password',
+                            'request-password-reset',
+                        ],
                         'allow' => true,
                     ],
                     [
@@ -43,48 +56,6 @@ class SiteController extends Controller
                 ],
             ],
         ];
-    }
-
-    /**
-     * @return array|Response
-     * @throws \yii\web\NotFoundHttpException
-     */
-    public function actionAjaxLogin()
-    {
-        if (Yii::$app->request->isAjax) {
-            $model = new \app\models\LoginForm();
-            if ($model->load(Yii::$app->request->post())) {
-                if ($model->login()) {
-                    return $this->goBack();
-                } else {
-                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                    return \yii\widgets\ActiveForm::validate($model);
-                }
-            }
-        }
-        throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-    }
-
-    /**
-     * @return array|Response
-     * @throws \yii\base\Exception
-     * @throws \yii\web\NotFoundHttpException
-     */
-    public function actionAjaxSignup()
-    {
-        if (Yii::$app->request->isAjax) {
-            $model = new \app\models\SignupForm();
-            if ($model->load(Yii::$app->request->post())) {
-                if ($model->signup()) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', 'Thank you for registering.'));
-                    return $this->goBack();
-                } else {
-                    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                    return \yii\widgets\ActiveForm::validate($model);
-                }
-            }
-        }
-        throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
     /**
@@ -193,6 +164,86 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Requests password reset.
+     *
+     * @return string|\yii\web\Response
+     */
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                return $this->processGoHome(Yii::t('app', 'To the address {:Email} We sent you a letter with further instructions, check mail.', [':Email' => $model->email]));
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Sorry, we are unable to reset password.'));
+            }
+        }
+        return $this->render('requestPasswordResetToken', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Resets password.
+     *
+     * @param string $token
+     * @return string|Response
+     * @throws BadRequestHttpException
+     * @throws \yii\base\Exception
+     */
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $this->processResetPassword($model)) {
+            return $this->processGoHome(Yii::t('app', 'The new password was successfully saved.'));
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Confirm Email
+     *
+     * @param string $token
+     * @return Response
+     * @throws BadRequestHttpException
+     * @throws \Exception
+     */
+    public function actionEmailConfirm($token)
+    {
+        try {
+            $model = new EmailConfirmForm($token);
+        } catch (\InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->confirmEmail()) {
+            return $this->processGoHome(Yii::t('app', 'Thank you for registering! Now you can log in using your credentials.'));
+        }
+        return $this->processGoHome(Yii::t('app', 'Error sending message!'), 'error');
+    }
+
+    /**
+     * @param ResetPasswordForm $model
+     * @return bool
+     * @throws \yii\base\Exception
+     */
+    protected function processResetPassword($model)
+    {
+        if ($model->validate() && $model->resetPassword()) {
+            return true;
+        }
+        return false;
     }
 
     /**

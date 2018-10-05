@@ -21,18 +21,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'login-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>\n<div class=\"col-lg-offset-1 col-lg-11\">{hint}</div>",
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
     ]); ?>
 
     <?= $form->field($model, 'username')->textInput([
-        'placeholder' => true,
+        'placeholder' => Yii::t('app', 'Username or Email'),
     ]) ?>
 
     <?= $form->field($model, 'password')->passwordInput([
-        'placeholder' => true,
-    ]) ?>
+        'placeholder' => true
+    ])->hint(Yii::t('app', 'If you have forgotten your password, use {:Link}',
+            [
+                ':Link' => Html::a(Yii::t('app', 'form of password reset'), ['request-password-reset'])
+            ]
+        ) . '.'
+    ) ?>
 
     <?= $form->field($model, 'rememberMe')->checkbox([
         'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",

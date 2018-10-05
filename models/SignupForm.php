@@ -22,6 +22,7 @@ class SignupForm extends Model
     const LENGTH_STRING_PASSWORD_MAX = 16;
 
     public $username;
+    public $email;
     public $password;
 
     /**
@@ -37,6 +38,12 @@ class SignupForm extends Model
             ['username', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This username is already taken.')],
             ['username', 'string', 'min' => self::LENGTH_STRING_USERNAME_MIN, 'max' => self::LENGTH_STRING_USERNAME_MAX],
 
+            ['email', 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This email already exists.')],
+
             ['password', 'required'],
             ['password', 'string', 'min' => self::LENGTH_STRING_PASSWORD_MIN, 'max' => self::LENGTH_STRING_PASSWORD_MAX],
         ];
@@ -50,6 +57,7 @@ class SignupForm extends Model
     {
         return [
             'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
             'password' => Yii::t('app', 'Password'),
         ];
     }
@@ -63,8 +71,18 @@ class SignupForm extends Model
     public function signup()
     {
         if ($this->validate()) {
-            $user = $this->loadModel();
+            $user = $this->processLoadModel();
             if ($user->save()) {
+                Yii::$app->mailer->compose(
+                    [
+                        'html' => '@app/mail/templates/emailConfirm-html',
+                        'text' => '@app/mail/templates/emailConfirm-text'
+                    ],
+                    ['user' => $user])
+                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                    ->setTo($this->email)
+                    ->setSubject(Yii::$app->name . ' | ' . Yii::t('app', 'Account activation'))
+                    ->send();
                 return $user;
             }
         }
@@ -75,12 +93,15 @@ class SignupForm extends Model
      * @return User
      * @throws \yii\base\Exception
      */
-    protected function loadModel()
+    protected function processLoadModel()
     {
         $user = new User();
         $user->username = $this->username;
+        $user->email = $this->email;
         $user->setPassword($this->password);
+        $user->status = User::STATUS_WAIT;
         $user->generateAuthKey();
+        $user->generateEmailConfirmToken();
         return $user;
     }
 }

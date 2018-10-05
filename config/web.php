@@ -74,6 +74,9 @@ $config = [
             ],
         ],
     ],
+    'as afterAction' => [
+        'class' => '\app\components\behaviors\LastVisitBehavior',
+    ],
     'params' => $params,
 ];
 

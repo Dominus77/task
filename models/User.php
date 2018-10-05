@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Html;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -16,12 +17,28 @@ use yii\helpers\ArrayHelper;
  * @property string $auth_key Authorization Key
  * @property int $created_at Created
  * @property int $updated_at Updated
+ * @property string $password_reset_token Password Token
+ * @property string $email_confirm_token Email Confirm Token
+ * @property string $email Email
+ * @property int|string $status Status
+ * @property int $last_visit Last Visit
  * @property string $authKey
  * @property string $password
  * @property string $role
+ * @property array statusesArray Array statuses
+ * @property string $statusName
+ * @property string $statusLabelName
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    /**
+     * Users Statuses
+     */
+    const STATUS_BLOCKED = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_WAIT = 2;
+    const STATUS_DELETED = 3;
+
     /**
      * @inheritdoc
      * @return array
@@ -53,6 +70,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
             ['username', 'unique', 'targetClass' => self::class, 'message' => Yii::t('app', 'This username is already taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'unique', 'targetClass' => self::class, 'message' => Yii::t('app', 'This email is already taken.')],
+            ['email', 'string', 'max' => 255],
+
+            ['status', 'integer'],
+            ['status', 'default', 'value' => self::STATUS_WAIT],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
         ];
     }
 
@@ -64,11 +90,16 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
             'password_hash' => Yii::t('app', 'Hash Password'),
             'auth_key' => Yii::t('app', 'Authorization Key'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
             'role' => Yii::t('app', 'Role'),
+            'last_visit' => Yii::t('app', 'Last Visit'),
+            'status' => Yii::t('app', 'Status'),
+            'email_confirm_token' => Yii::t('app', 'Email Confirm Token'),
+            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
         ];
     }
 
@@ -96,7 +127,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Finds user by username or email
+     *
+     * @param $string
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function findByUsernameOrEmail($string)
+    {
+        return static::find()
+            ->where(['or', ['username' => $string], ['email' => $string]])
+            ->andWhere(['status' => self::STATUS_ACTIVE])
+            ->one();
     }
 
     /**
@@ -156,6 +201,84 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by password reset token
+     *
+     * @param mixed $token password reset token
+     * @return static|null
+     */
+    public static function findByPasswordResetToken($token)
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            return null;
+        }
+        return static::findOne([
+            'password_reset_token' => $token,
+            'status' => self::STATUS_ACTIVE,
+        ]);
+    }
+
+    /**
+     * Generates new password reset token
+     */
+    public function generatePasswordResetToken()
+    {
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    /**
+     * Removes password reset token
+     */
+    public function removePasswordResetToken()
+    {
+        $this->password_reset_token = null;
+    }
+
+    /**
+     * Generates email confirmation token
+     */
+    public function generateEmailConfirmToken()
+    {
+        $this->email_confirm_token = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * @param mixed $email_confirm_token
+     * @return bool|null|static
+     */
+    public static function findByEmailConfirmToken($email_confirm_token)
+    {
+        return static::findOne([
+            'email_confirm_token' => $email_confirm_token,
+            'status' => self::STATUS_WAIT
+        ]);
+    }
+
+    /**
+     * Removes email confirmation token
+     */
+    public function removeEmailConfirmToken()
+    {
+        $this->email_confirm_token = null;
+    }
+
+    /**
+     * Finds out if password reset token is valid
+     *
+     * @param mixed $token password reset token
+     * @return boolean
+     */
+    public static function isPasswordResetTokenValid($token)
+    {
+        if (empty($token)) {
+            return false;
+        }
+        $expire = Yii::$app->params['users.passwordResetTokenExpire'];
+        $parts = explode('_', $token);
+        $timestamp = (int)end($parts);
+        return $timestamp + $expire >= time();
+    }
+
+    /**
      * Присвоенная роль
      */
     public function getRole()
@@ -179,5 +302,77 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             });
         }
         return null;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_BLOCKED => Yii::t('app', 'Blocked'),
+            self::STATUS_ACTIVE => Yii::t('app', 'Active'),
+            self::STATUS_WAIT => Yii::t('app', 'Wait'),
+            self::STATUS_DELETED => Yii::t('app', 'Deleted'),
+        ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLabelsArray()
+    {
+        return [
+            self::STATUS_BLOCKED => 'default',
+            self::STATUS_ACTIVE => 'success',
+            self::STATUS_WAIT => 'warning',
+            self::STATUS_DELETED => 'danger',
+        ];
+    }
+
+    /**
+     * Return <span class="label label-success">Active</span>
+     * @return string
+     */
+    public function getStatusLabelName()
+    {
+        $name = ArrayHelper::getValue(self::getLabelsArray(), $this->status);
+        return Html::tag('span', $this->getStatusName(), ['class' => 'label label-' . $name]);
+    }
+
+    /**
+     * Set Status
+     *
+     * @return int|string
+     */
+    public function setStatus()
+    {
+        switch ($this->status) {
+            case self::STATUS_ACTIVE:
+                $this->status = self::STATUS_BLOCKED;
+                break;
+            case self::STATUS_DELETED:
+                $this->status = self::STATUS_WAIT;
+                break;
+            default:
+                $this->status = self::STATUS_ACTIVE;
+        }
+        return $this->status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->status === self::STATUS_DELETED;
     }
 }

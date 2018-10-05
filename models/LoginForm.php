@@ -80,13 +80,12 @@ class LoginForm extends Model
 
     /**
      * Finds user by [[username]]
-     *
-     * @return User|null
+     * @return User|array|bool|null|\yii\db\ActiveRecord
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByUsernameOrEmail($this->username);
         }
 
         return $this->_user;

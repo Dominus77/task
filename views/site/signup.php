@@ -31,6 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'placeholder' => true
     ]) ?>
 
+    <?= $form->field($model, 'email')->textInput([
+        'placeholder' => true
+    ]) ?>
+
     <?= $form->field($model, 'password')->passwordInput([
         'placeholder' => true
     ]) ?>
