@@ -5,6 +5,10 @@ namespace tests\models;
 use app\fixtures\User as UserFixture;
 use app\models\User;
 
+/**
+ * Class UserTest
+ * @package tests\models
+ */
 class UserTest extends \Codeception\Test\Unit
 {
     /**
@@ -30,6 +34,7 @@ class UserTest extends \Codeception\Test\Unit
      */
     public function testFindUserById()
     {
+        /** @var $user \app\models\User */
         expect_that($user = User::findIdentity(3));
         expect($user->username)->equals('imtester');
 
@@ -41,6 +46,7 @@ class UserTest extends \Codeception\Test\Unit
      */
     public function testFindUserByAccessToken()
     {
+        /** @var $user \app\models\User */
         expect_that($user = User::findIdentityByAccessToken('iwTNae9t34OmnK6l4vT4IeaTk-YWI2Rv'));
         expect($user->username)->equals('okirlin');
 

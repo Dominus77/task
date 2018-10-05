@@ -57,9 +57,10 @@ class SignupCest
     {
         $I->submitForm($this->formId, [
             'SignupForm[username]' => 'testers',
+            'SignupForm[email]' => 'testers@example.com',
             'SignupForm[password]' => '123456',
         ]);
 
-        $I->see('Thank you for registering.');
+        $I->see('It remains to activate the account, check your mail.');
     }
 }

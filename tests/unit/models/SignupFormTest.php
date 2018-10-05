@@ -23,7 +23,7 @@ class SignupFormTest extends \Codeception\Test\Unit
     public function _before()
     {
         $this->tester->haveFixtures([
-            'user' => [
+            'users' => [
                 'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
@@ -37,6 +37,7 @@ class SignupFormTest extends \Codeception\Test\Unit
     {
         $model = new SignupForm([
             'username' => 'some_username',
+            'email' => 'some_email@example.com',
             'password' => 'some_password',
         ]);
 
@@ -45,6 +46,7 @@ class SignupFormTest extends \Codeception\Test\Unit
         expect($user)->isInstanceOf('app\models\User');
 
         expect($user->username)->equals('some_username');
+        expect($user->email)->equals('some_email@example.com');
         expect($user->validatePassword('some_password'))->true();
     }
 
@@ -55,10 +57,12 @@ class SignupFormTest extends \Codeception\Test\Unit
     {
         $model = new SignupForm([
             'username' => 'troy.becker',
+            'email' => 'nicolas.dianna@hotmail.com',
             'password' => 'some_password',
         ]);
 
         expect_not($model->signup());
         expect_that($model->getErrors('username'));
+        expect_that($model->getErrors('email'));
     }
 }

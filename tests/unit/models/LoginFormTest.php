@@ -2,8 +2,9 @@
 
 namespace tests\models;
 
-use app\fixtures\User as UserFixture;
+use Yii;
 use app\models\LoginForm;
+use app\fixtures\User as UserFixture;
 
 /**
  * Class LoginFormTest
@@ -16,58 +17,62 @@ class LoginFormTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
-    private $model;
-
     /**
      * @inheritdoc
      */
     public function _before()
     {
         $this->tester->haveFixtures([
-            'user' => [
+            'users' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'login_data.php'
+                'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
     }
 
-    protected function _after()
-    {
-        \Yii::$app->user->logout();
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function testLoginNoUser()
     {
-        $this->model = new LoginForm([
-            'username' => 'not_existing_username',
+        $model = new LoginForm([
+            'username' => 'not_existing_username@test.loc',
             'password' => 'not_existing_password',
         ]);
 
-        expect_not($this->model->login());
-        expect_that(\Yii::$app->user->isGuest);
+        expect('model should not login users', $model->login())->false();
+        expect('users should not be logged in', Yii::$app->user->isGuest)->true();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function testLoginWrongPassword()
     {
-        $this->model = new LoginForm([
-            'username' => 'demo',
+        Yii::$app->getRequest()->cookieValidationKey = 'test';
+        $model = new LoginForm([
+            'username' => 'bayer.hudson@test.loc',
             'password' => 'wrong_password',
         ]);
 
-        expect_not($this->model->login());
-        expect_that(\Yii::$app->user->isGuest);
-        expect($this->model->errors)->hasKey('password');
+        expect('model should not login users', $model->login())->false();
+        expect('error message should be set', $model->errors)->hasKey('password');
+        expect('users should not be logged in', Yii::$app->user->isGuest)->true();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function testLoginCorrect()
     {
-        $this->model = new LoginForm([
-            'username' => 'tester',
+        Yii::$app->getRequest()->cookieValidationKey = 'test';
+        $model = new LoginForm([
+            'username' => 'im.tester@rutherford.com',
             'password' => 'password_0',
         ]);
 
-        expect_that($this->model->login());
-        expect_not(\Yii::$app->user->isGuest);
-        expect($this->model->errors)->hasntKey('password_hash');
+        expect('model should login users', $model->login())->true();
+        expect('error message should not be set', $model->errors)->hasntKey('password_hash');
+        expect('users should be logged in', Yii::$app->user->isGuest)->false();
     }
 }

@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
+            'email',
             'role',
             [
                 'attribute' => 'auth_key',
@@ -45,6 +46,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $key . ' ' . $link;
                 }
             ],
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->statusLabelName;
+                }
+            ],
+            'last_visit:datetime',
             'created_at:datetime',
             'updated_at:datetime',
         ],

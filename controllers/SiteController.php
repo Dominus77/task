@@ -131,7 +131,7 @@ class SiteController extends Controller
 
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            return $this->processGoHome(Yii::t('app', 'Thank you for registering.'));
+            return $this->processGoHome(Yii::t('app', 'It remains to activate the account, check your mail.'));
         }
         return $this->render('signup', [
             'model' => $model,
