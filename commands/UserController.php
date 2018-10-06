@@ -25,6 +25,7 @@ class UserController extends Controller
     {
         echo 'yii user/view-all' . PHP_EOL;
         echo 'yii user/create' . PHP_EOL;
+        echo 'yii user/activate' . PHP_EOL;
         echo 'yii user/remove' . PHP_EOL;
         echo 'yii user/change-password' . PHP_EOL;
     }
@@ -44,6 +45,27 @@ class UserController extends Controller
             'error' => Console::convertEncoding(Yii::t('app', 'More than {:number} symbols', [':number' => 4])),
         ]));
         $model->generateAuthKey();
+        if (($select = Console::convertEncoding(User::getStatusesArray())) && is_array($select)) {
+            $model->status = $this->select(Console::convertEncoding(Yii::t('app', 'Status')) . ':', $select);
+            $this->log($model->save());
+        } else {
+            $this->log();
+        }
+    }
+
+    /**
+     * Change user status to active
+     *
+     * @throws Exception
+     */
+    public function actionActivate()
+    {
+        $username = $this->prompt(Console::convertEncoding(Yii::t('app', 'Username')) . ':', [
+            'required' => true
+        ]);
+        $model = $this->findModel($username);
+        $model->status = User::STATUS_ACTIVE;
+        $model->removeEmailConfirmToken();
         $this->log($model->save());
     }
 
