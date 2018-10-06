@@ -39,6 +39,7 @@ class UserController extends Controller
     {
         $model = new User();
         $this->readValue($model, 'username');
+        $this->readValue($model, 'email');
         $model->setPassword($this->prompt(Console::convertEncoding(Yii::t('app', 'Password')) . ':', [
             'required' => true,
             'pattern' => '#^.{4,255}$#i',
