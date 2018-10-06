@@ -8,6 +8,8 @@ use yii\helpers\ArrayHelper;
 /**
  * Class SignupForm
  * @package api\modules\v1\models
+ *
+ * @property array $template
  */
 class SignupForm extends \app\models\SignupForm
 {
@@ -25,5 +27,18 @@ class SignupForm extends \app\models\SignupForm
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), []);
+    }
+
+    /**
+     * Template mail
+     *
+     * @return array
+     */
+    public function getTemplate()
+    {
+        return [
+            'html' => '@api/modules/v1/mail/templates/emailConfirm-html',
+            'text' => '@api/modules/v1/mail/templates/emailConfirm-text',
+        ];
     }
 }

@@ -39,7 +39,7 @@ class EmailConfirmForm extends Model
     /**
      * Confirm email.
      *
-     * @return bool|\yii\rbac\Assignment if email was confirmed.
+     * @return User|bool
      * @throws \Exception
      */
     public function confirmEmail()
@@ -48,7 +48,7 @@ class EmailConfirmForm extends Model
         $user->status = User::STATUS_ACTIVE;
         $user->removeEmailConfirmToken();
         if ($user->save(false)) {
-            return true;
+            return $user->assignUserRole();
         }
         return false;
     }

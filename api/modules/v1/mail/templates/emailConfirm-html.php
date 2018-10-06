@@ -8,11 +8,12 @@
 use yii\helpers\Html;
 
 $urlManager = Yii::$app->urlManager;
-$confirmLink = $urlManager->createAbsoluteUrl(['site/email-confirm', 'token' => $user->email_confirm_token]);
+$confirmLink = $urlManager->createAbsoluteUrl(['v1/users/email-confirm', 'token' => $user->email_confirm_token]);
 $link = $urlManager->hostInfo;
 ?>
 
 <div class="email-confirm">
+    <p><?= 'Это api'; ?></p>
     <p><?= Yii::t('app', 'Hello!'); ?></p>
     <p><?= Yii::t('app', 'When registering on the site {:Website} you or someone else has indicated the address of your email.', [':Website' => Html::a(Yii::$app->name, $link)]) ?></p>
     <p><?= Yii::t('app', 'If you did not do this, then just ignore this letter.'); ?></p>

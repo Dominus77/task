@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 
 $urlManager = Yii::$app->urlManager;
-$resetLink = $urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+$resetLink = $urlManager->createAbsoluteUrl(['v1/users/reset-password', 'token' => $user->password_reset_token]);
 $link = $urlManager->hostInfo;
 ?>
 

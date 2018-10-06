@@ -137,10 +137,11 @@ class UserController extends ActiveController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->confirmEmail()) {
+        if ($user = $model->confirmEmail()) {
             return [
                 'status' => true,
                 'result' => Yii::t('app', 'Thank you for registering! Now you can log in using your credentials.'),
+                'key' => $user->auth_key,
             ];
         }
         return [

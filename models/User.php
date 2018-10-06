@@ -281,6 +281,24 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Assign role
+     *
+     * @param string $roleName
+     * @return $this
+     * @throws \Exception
+     */
+    public function assignUserRole($roleName = \app\components\Rbac::ROLE_USER)
+    {
+        $authManager = Yii::$app->getAuthManager();
+        $role = $authManager->getRole($roleName);
+        $userRoles = $this->getUserRoleValue($this->id);
+        if ($userRoles === null) {
+            $authManager->assign($role, $this->id);
+        }
+        return $this;
+    }
+
+    /**
      * User role
      */
     public function getRole()
@@ -292,7 +310,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      * @param string|int $user_id
      * @return mixed|null
      */
-    protected function getUserRoleValue($user_id)
+    public function getUserRoleValue($user_id)
     {
         $authManager = Yii::$app->authManager;
         if ($role = $authManager->getRolesByUser($user_id)) {

@@ -74,10 +74,7 @@ class SignupForm extends Model
             $user = $this->processLoadModel();
             if ($user->save()) {
                 Yii::$app->mailer->compose(
-                    [
-                        'html' => '@app/mail/templates/emailConfirm-html',
-                        'text' => '@app/mail/templates/emailConfirm-text'
-                    ],
+                    $this->getTemplate(),
                     ['user' => $user])
                     ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
                     ->setTo($this->email)
@@ -87,6 +84,19 @@ class SignupForm extends Model
             }
         }
         return null;
+    }
+
+    /**
+     * Template mail
+     *
+     * @return array
+     */
+    public function getTemplate()
+    {
+        return [
+            'html' => '@app/mail/templates/emailConfirm-html',
+            'text' => '@app/mail/templates/emailConfirm-text'
+        ];
     }
 
     /**
