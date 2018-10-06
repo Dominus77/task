@@ -49,10 +49,14 @@ return [
     'The user already has a role.' => 'Пользователю уже присвоена роль.',
 
     'Tables' => 'Таблицы',
-
     'File Name' => 'Имя файла',
     'Table Name' => 'Имя таблицы',
     'There is no such file. Use the command: {:command}' => 'Такого файла нет. Используйте команду: {:command}',
+    'All data in the table "{:Name}" will be overwritten, continue?' => 'Все данные в таблице "{:Name}" будут перезаписаны, продолжить?',
+    'Are you sure you want to clear the data table "{:Name}"?' => 'Вы действительно хотите очистить от данных таблицу "{:Name}"?',
+    'Do you really want a table "{:Name}"?' => 'Вы действительно хотите таблицу "{:Name}"?',
+    'All tables are created.' => 'Все таблицы созданы.',
+    'No table specified.' => 'Не указана таблица.',
 
     'Actions' => 'Действия',
     'View' => 'Просмотр',

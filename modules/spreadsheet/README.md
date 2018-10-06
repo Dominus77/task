@@ -13,6 +13,7 @@ spreadsheet/import/load-data            Загрузить данные в та�
 spreadsheet/import/remove-table         Удалить таблицу
 spreadsheet/import/show-files-names     Показать имена файлов
 spreadsheet/import/show-tables-names    Показать имена созданных таблиц
+spreadsheet/import/show-table-info      Показать информацию по таблице
 
 ```
 

@@ -49,10 +49,14 @@ return [
     'The user already has a role.' => 'The user already has a role.',
 
     'Tables' => 'Tables',
-
     'File Name' => 'File Name',
     'Table Name' => 'Table Name',
     'There is no such file. Use the command: {:command}' => 'There is no such file. Use the command: {:command}',
+    'All data in the table "{:Name}" will be overwritten, continue?' => 'All data in the table "{:Name}" will be overwritten, continue?',
+    'Are you sure you want to clear the data table "{:Name}"?' => 'Are you sure you want to clear the data table "{:Name}"?',
+    'Do you really want a table "{:Name}"?' => 'Do you really want a table "{:Name}"?',
+    'All tables are created.' => 'All tables are created.',
+    'No table specified.' => 'No table specified.',
 
     'Actions' => 'Actions',
     'View' => 'View',
