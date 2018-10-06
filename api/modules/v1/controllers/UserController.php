@@ -6,7 +6,9 @@ use Yii;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\filters\auth\HttpBearerAuth;
+use yii\web\BadRequestHttpException;
 use api\modules\v1\models\SignupForm;
+use api\modules\v1\models\EmailConfirmForm;
 use api\modules\v1\models\User;
 use app\components\Rbac;
 
@@ -36,7 +38,7 @@ class UserController extends ActiveController
         // header('Authorization: Bearer 51aGMh6_TJDKC9dpZPBaE23TX5NXruI3');
         $behaviors['authenticator']['class'] = HttpBearerAuth::class;
         // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options', 'signup'];
+        $behaviors['authenticator']['except'] = ['options', 'signup', 'email-confirm'];
 
         return $behaviors;
     }
@@ -80,6 +82,7 @@ class UserController extends ActiveController
      *
      * body
      * username=USERNAME
+     * email=EMAIL
      * password=PASSWORD
      *
      * @return array
@@ -90,9 +93,10 @@ class UserController extends ActiveController
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->bodyParams, '') && $model->validate()) {
             if ($user = $model->signup()) {
-                return ['status' => true, 'result' => Yii::t('app', 'Thank you for registering. Your authorization key: {:key}', [
-                    ':key' => $user->auth_key,
-                ])];
+                return [
+                    'status' => true,
+                    'result' => Yii::t('app', 'It remains to activate the account, check your mail.')
+                ];
             }
         }
         return ['status' => false, 'result' => $model->getErrors()];
@@ -112,7 +116,36 @@ class UserController extends ActiveController
         $identity = Yii::$app->user->identity;
         $id = $identity->id;
         return new \yii\data\ActiveDataProvider([
-            'query' => $this->modelClass::find()->where(['id' => $id]),
+            'query' => $this->modelClass::find()->where(['id' => $id, 'status' => User::STATUS_ACTIVE]),
         ]);
+    }
+
+    /**
+     * Confirm Email
+     *
+     * GET /api/v1/users/email-confirm?token=EMAIL_CONFIRM_TOKEN
+     *
+     * @param string $token
+     * @return array
+     * @throws BadRequestHttpException
+     */
+    public function actionEmailConfirm($token)
+    {
+        try {
+            $model = new EmailConfirmForm($token);
+        } catch (\InvalidArgumentException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->confirmEmail()) {
+            return [
+                'status' => true,
+                'result' => Yii::t('app', 'Thank you for registering! Now you can log in using your credentials.'),
+            ];
+        }
+        return [
+            'status' => true,
+            'result' => Yii::t('app', 'Error sending message!'),
+        ];
     }
 }

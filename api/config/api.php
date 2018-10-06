@@ -36,6 +36,13 @@ $config = [
             'enableAutoLogin' => false,
             'loginUrl' => null,
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => true,
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -58,6 +65,9 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+    ],
+    'as afterAction' => [
+        'class' => '\app\components\behaviors\LastVisitBehavior',
     ],
     'params' => $params,
 ];

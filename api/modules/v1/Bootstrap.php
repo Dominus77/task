@@ -40,6 +40,7 @@ class Bootstrap
                 'extraPatterns' => [
                     'POST signup' => 'signup',
                     'GET profile' => 'profile',
+                    'GET email-confirm' => 'email-confirm',
                 ],
             ],
             [

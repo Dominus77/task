@@ -35,7 +35,8 @@ class User extends \app\models\User
     {
         return [
             'id',
-            'username'
+            'username',
+            'email',
         ];
     }
 
@@ -49,7 +50,11 @@ class User extends \app\models\User
             'created_at',
             'updated_at',
             'auth_key',
-            'role'
+            'role',
+            'status',
+            'last_visit',
+            'email_confirm_token',
+            'password_reset_token',
         ];
     }
 }
