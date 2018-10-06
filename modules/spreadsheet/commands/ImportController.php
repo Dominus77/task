@@ -65,6 +65,8 @@ class ImportController extends Controller
         if (($select = Console::convertEncoding($names)) && is_array($select)) {
             $name = $this->select(Console::convertEncoding(Yii::t('app', 'Table Name')) . ':', $select);
             $this->getTableInfo($name);
+        } else {
+            $this->stdout(Yii::t('app', 'No table specified.') . PHP_EOL, Console::FG_YELLOW, Console::BOLD);
         }
     }
 
@@ -226,7 +228,7 @@ class ImportController extends Controller
             $this->stdout($decor . PHP_EOL);
             $this->stdout("ROWS {$countRows}" . PHP_EOL);
         } else {
-            $this->stdout(Yii::t('app', 'No table specified.') . PHP_EOL, Console::FG_RED, Console::BOLD);
+            $this->stdout(Yii::t('app', 'No table specified.') . PHP_EOL, Console::FG_YELLOW, Console::BOLD);
         }
     }
 
