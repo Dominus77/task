@@ -31,28 +31,4 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
         </div>
     </div>
-    <?php
-    $tableName = 'test';
-    $db = Yii::$app->db;
-    $result = $db->getTableSchema($tableName, true);
-
-    $table = new \modules\spreadsheet\components\Table();
-    $countRows = $table->getCountItemsTable($tableName);
-    $strColumns = implode(' | ', $result->getColumnNames());
-    $length = mb_strlen($strColumns);
-
-    $decor = '';
-    for ($i = 0; $i <= $length; $i++) {
-        $decor .= 'x';
-    }
-
-    $decor = nl2br($decor . PHP_EOL);
-
-    echo $decor;
-    echo nl2br($strColumns . PHP_EOL);
-    echo nl2br($decor . PHP_EOL);
-    echo nl2br($countRows);
-    //\yii\helpers\VarDumper::dump($columns, 10, 1);
-    //\yii\helpers\VarDumper::dump($length, 10, 1);
-    ?>
 </div>
