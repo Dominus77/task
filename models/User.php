@@ -242,6 +242,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Get confirm token
+     *
      * @param mixed $email_confirm_token
      * @return bool|null|static
      */
@@ -279,7 +281,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Присвоенная роль
+     * User role
      */
     public function getRole()
     {
@@ -290,7 +292,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      * @param string|int $user_id
      * @return mixed|null
      */
-    public function getUserRoleValue($user_id)
+    protected function getUserRoleValue($user_id)
     {
         $authManager = Yii::$app->authManager;
         if ($role = $authManager->getRolesByUser($user_id)) {
@@ -305,6 +307,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Statuses array
+     *
      * @return array
      */
     public static function getStatusesArray()
@@ -318,6 +322,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Status name
+     *
      * @return mixed
      */
     public function getStatusName()
@@ -326,6 +332,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Labels array
+     *
      * @return array
      */
     public static function getLabelsArray()
@@ -339,7 +347,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Return <span class="label label-success">Active</span>
+     * Status name in Label
+     *
+     * <span class="label label-success">Active</span>
+     *
      * @return string
      */
     public function getStatusLabelName()
@@ -369,10 +380,30 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Is status User delete
+     *
      * @return bool
      */
     public function isDeleted()
     {
         return $this->status === self::STATUS_DELETED;
+    }
+
+    /**
+     * Actions before delete
+     *
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            // Отвязываем от ролей
+            $authManager = Yii::$app->getAuthManager();
+            if ($authManager->getRolesByUser($this->id)) {
+                $authManager->revokeAll($this->id);
+            }
+            return true;
+        }
+        return false;
     }
 }
