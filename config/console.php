@@ -7,10 +7,11 @@ $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'timeZone' => 'Europe/Moscow',
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
         '@modules' => '@app/modules',
         '@uploads' => '@app/web/uploads',
@@ -26,10 +27,19 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'log' => [
+            'flushInterval' => 1,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'exportInterval' => 1,
+                    'categories' => ['spreadsheet'],
+                    'logFile' => '@runtime/logs/spreadsheet.log',
+                    'logVars' => [],
                 ],
             ],
         ],

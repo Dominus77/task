@@ -9,6 +9,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'homeUrl' => '/',
     'bootstrap' => ['log'],
+    'timeZone' => 'Europe/Moscow',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',

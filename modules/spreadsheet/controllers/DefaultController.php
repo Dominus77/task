@@ -2,6 +2,7 @@
 
 namespace modules\spreadsheet\controllers;
 
+use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;

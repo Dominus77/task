@@ -80,14 +80,19 @@ class Import
                     $db->createCommand()->createTable($table_name, $column)->execute();
                     $db->createCommand()->addPrimaryKey($table_name . '_pk', $table_name, 'id')->execute();
                     $db->createCommand()->alterColumn($table_name, 'id', 'INTEGER NOT NULL AUTO_INCREMENT')->execute();
-                }
-                // Генерируем модель
-                if ($this->createModel($table_name) === true) {
-                    // Генерируем GRUD
-                    if ($this->createGrud($table_name) === true) {
-                        // Генерируем API
-                        if ($this->createApi($table_name) === true) {
-                            return true;
+                    Yii::info('Table ' . $table_name . ' successfully created', 'spreadsheet');
+
+                    // Генерируем модель
+                    if ($this->createModel($table_name) === true) {
+                        Yii::info('Model for table ' . $table_name . '  successfully created', 'spreadsheet');
+                        // Генерируем GRUD
+                        if ($this->createGrud($table_name) === true) {
+                            Yii::info('GRUD for table ' . $table_name . ' successfully created', 'spreadsheet');
+                            // Генерируем API
+                            if ($this->createApi($table_name) === true) {
+                                Yii::info('API for table ' . $table_name . ' successfully created', 'spreadsheet');
+                                return true;
+                            }
                         }
                     }
                 }
@@ -146,14 +151,21 @@ class Import
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
                 $db->createCommand()->dropTable($table_name)->execute();
+                Yii::info('Table ' . $table_name . ' successfully deleted', 'spreadsheet');
                 // Удаляем Api
-                $this->removeApi($table_name);
-                // Удаляем GRUD
-                $this->removeGrud($table_name);
-                // Удаляем модель
-                $this->removeModel($table_name);
+                if ($this->removeApi($table_name)) {
+                    Yii::info('API for table ' . $table_name . ' successfully deleted', 'spreadsheet');
+                    // Удаляем GRUD
+                    if ($this->removeGrud($table_name)) {
+                        Yii::info('GRUD for table ' . $table_name . ' successfully deleted', 'spreadsheet');
+                        // Удаляем модель
+                        if ($this->removeModel($table_name)) {
+                            Yii::info('Model for table ' . $table_name . ' successfully deleted', 'spreadsheet');
+                            return true;
+                        }
+                    }
+                }
             }
-            return true;
         }
         return false;
     }
@@ -237,6 +249,7 @@ class Import
                 try {
                     $db->createCommand()->batchInsert($table_name, $fields, $values)->execute();
                     $transaction->commit();
+                    Yii::info('Data successfully loaded to table ' . $table_name, 'spreadsheet');
                 } catch (\Exception $e) {
                     $transaction->rollback();
                 }
@@ -259,6 +272,7 @@ class Import
             $db = Yii::$app->db;
             if ($db->getTableSchema($table_name, true) !== null) {
                 $db->createCommand()->truncateTable($table_name)->execute();
+                Yii::info('Data from table ' . $table_name . ' successfully deleted.', 'spreadsheet');
                 return true;
             }
         }
