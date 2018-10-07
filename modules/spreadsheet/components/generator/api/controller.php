@@ -40,7 +40,7 @@ class <?= StringHelper::basename($generator->controllerClass) ?> extends ApiCont
      *
      * @var array
      */
-    public $reservedParams = ['sort', 'q'];
+    public $reservedParams = ['page', 'sort', 'q'];
 
     /**
      * Override actions
