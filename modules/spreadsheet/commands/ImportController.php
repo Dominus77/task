@@ -222,11 +222,11 @@ class ImportController extends Controller
             for ($i = 0; $i <= $length; $i++) {
                 $decor .= '-';
             }
-            $this->stdout(PHP_EOL . "Table: {$tableName}" . PHP_EOL);
+            $this->stdout(PHP_EOL . "TABLE: {$tableName}" . PHP_EOL);
+            $this->stdout("ROWS: {$countRows}" . PHP_EOL);
             $this->stdout($decor . PHP_EOL);
             $this->stdout($strColumns . PHP_EOL);
             $this->stdout($decor . PHP_EOL);
-            $this->stdout("ROWS {$countRows}" . PHP_EOL);
         } else {
             $this->stdout(Yii::t('app', 'No table specified.') . PHP_EOL, Console::FG_YELLOW, Console::BOLD);
         }
