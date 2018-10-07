@@ -33,6 +33,8 @@ Authorization: Bearer 51aGMh6_TJDKC9dpZPBaE23TX5NXruI3
 GET http://you_domain_name/api/v1/spreadsheet - Доступные таблицы, вывод с пагинацией
 GET http://you_domain_name/api/v1/spreadsheet/test - Данные из таблицы test, вывод с пагинацией
 GET http://you_domain_name/api/v1/spreadsheet/test?page=2 - Вторая страница данных из таблицы test
+GET http://you_domain_name/api/v1/spreadsheet/test?sort=-created_at - Сортировка
+GET http://you_domain_name/api/v1/spreadsheet/test?author=AUTHOR&title=TITLE - Фильтр
 
 // Авторизованные по Bearer токену пользователи с разрешением RBAC на просмотр
 GET http://you_domain_name/api/v1/spreadsheet/test/2 - Получение данных из таблицы test по id
