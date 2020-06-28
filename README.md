@@ -88,6 +88,8 @@ GET http://you_domain_name/api/v1/users/profile?expand=aut_key
 ```
 $db['dsn'] = 'mysql:host=localhost;dbname=task_involta_tests';
 ```
+# Результат
+Создан модуль который парсит из заданной папки файлы, автоматически создает таблицу в БД и работает с ней как через web интерфейс так и по api. Так же автоматически создаются модели  и GRUD согласно новой таблице в БД.
 Выполняем миграцию
 
 Windows:
